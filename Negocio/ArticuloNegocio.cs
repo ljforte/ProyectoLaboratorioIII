@@ -8,6 +8,7 @@ using Dominio;
 using static System.Net.Mime.MediaTypeNames;
 
 
+
 namespace Negocio
 {
     public class ArticuloNegocio
@@ -19,23 +20,28 @@ namespace Negocio
             AccesoDatos datos = new AccesoDatos();
             try
             {
+                // Consulta SQL
                 datos.SetearConsulta(@"
-                                        SELECT 
-                                        A.Id,
-                                        A.Codigo, 
-                                        A.Nombre, 
-                                        A.Descripcion, 
-                                        M.Descripcion AS Marca, 
-                                        C.Descripcion AS Categoria, 
-                                        A.Precio,
-                                        M.Id as IdMarca,
-                                        C.Id as IdCategoria,
-                                        I.ImagenUrl as Imagen
-                                        FROM ARTICULOS AS A 
-                                        LEFT JOIN Marcas AS M ON A.IdMarca = M.Id 
-                                        LEFT JOIN Categorias AS C ON A.IdCategoria = C.Id
-                                        LEFT JOIN IMAGENES AS I ON I.IdArticulo = A.Id"
-                                        );
+                            SELECT 
+            A.Id,
+            A.Codigo, 
+            A.Nombre, 
+            A.Descripcion, 
+            M.Descripcion AS Marca, 
+            C.Descripcion AS Categoria, 
+            A.Precio,
+            M.Id as IdMarca,
+            C.Id as IdCategoria,
+            I.ImagenUrl as Imagen,
+            P.Nombre AS ProveedorNombre,
+            P.id_proveedor AS IdProveedor,
+			s.stock as Stock
+        FROM ARTICULOS AS A 
+        LEFT JOIN Marcas AS M ON A.IdMarca = M.Id 
+        LEFT JOIN Categorias AS C ON A.IdCategoria = C.Id
+        LEFT JOIN IMAGENES AS I ON I.IdArticulo = A.Id
+        LEFT JOIN Proveedor AS P ON A.id_proveedor = P.id_proveedor
+		LEFT JOIN Stock as S ON A.id = S.id");
 
                 datos.EjecutarLectura();
 
@@ -44,37 +50,38 @@ namespace Negocio
                     Articulo aux = new Articulo();
 
                     aux.Id = (int)datos.lector["Id"];
-                    if (!(datos.lector["Codigo"] is DBNull)) { aux.Codigo = (string)datos.lector["Codigo"]; }
-                    //aux.Codigo = (string)datos.lector["Codigo"];                    
-                    
-                    if (!(datos.lector["Nombre"] is DBNull)) { aux.Nombre = (string)datos.lector["Nombre"]; }
-                   // aux.Nombre = (string)datos.lector["Nombre"];
+                    aux.Codigo = (datos.lector["Codigo"] is DBNull) ? string.Empty : (string)datos.lector["Codigo"];
+                    aux.Nombre = (datos.lector["Nombre"] is DBNull) ? string.Empty : (string)datos.lector["Nombre"];
+                    aux.Descripcion = (datos.lector["Descripcion"] is DBNull) ? string.Empty : (string)datos.lector["Descripcion"];
+                    aux.Precio = (datos.lector["Precio"] is DBNull) ? 0 : (decimal)datos.lector["Precio"];
 
-                    if (!(datos.lector["Descripcion"] is DBNull)) { aux.Descripcion = (string)datos.lector["Descripcion"]; }
-                    //aux.Descripcion = (string)datos.lector["Descripcion"];
-
-                    if (!(datos.lector["Precio"] is DBNull)) { aux.Precio = (decimal)datos.lector["Precio"]; }
-                    aux.Precio = (decimal)datos.lector["Precio"];
-
+                    // Asignar Marca
                     aux.MarcasCls = new Marcas();
-                    //if (!(datos.lector["MarcaDescripcion"] is DBNull))
-                        aux.MarcasCls.Descripcion = (string)datos.lector["Marca"];
-                    //else aux.MarcasCls.Descripcion = "";
-                    
+                    aux.MarcasCls.Descripcion = (datos.lector["Marca"] is DBNull) ? string.Empty : (string)datos.lector["Marca"];
 
+                    // Asignar Categoria
                     aux.CategoriasCls = new Categorias();
-                    //validacion de null categoria
                     if (!(datos.lector["IdCategoria"] is DBNull))
                         aux.CategoriasCls.Id = (int)datos.lector["IdCategoria"];
-                    if (!(datos.lector["Categoria"] is DBNull))
-                        aux.CategoriasCls.Descripcion = (string)datos.lector["Categoria"];
+                    aux.CategoriasCls.Descripcion = (datos.lector["Categoria"] is DBNull) ? string.Empty : (string)datos.lector["Categoria"];
 
-                    
-
+                    // Asignar Imagen
                     aux.Imagen = new ArtImg();
-                    if (!(datos.lector["Imagen"] is DBNull))
-                        aux.Imagen.ImagenUrl = datos.lector["Imagen"].ToString();
+                    aux.Imagen.ImagenUrl = (datos.lector["Imagen"] is DBNull) ? string.Empty : datos.lector["Imagen"].ToString();
 
+                    // Asignar Proveedor
+                    aux.ProveedorCls = new Proveedor();
+                    aux.ProveedorCls.id_proveedor = (datos.lector["IdProveedor"] is DBNull) ? 0 : (int)datos.lector["IdProveedor"];
+                    aux.ProveedorCls.nombre = (datos.lector["ProveedorNombre"] is DBNull) ? "Proveedor no disponible" : (string)datos.lector["ProveedorNombre"];
+
+                    // Asignar Stock
+                    aux.StockCls = new Stock();
+                    aux.StockCls.stock = (datos.lector["Stock"] is DBNull) ? 0 : (int)datos.lector["Stock"]; 
+
+                    // Para verificación
+                    Console.WriteLine("Proveedor: " + aux.ProveedorCls.nombre);
+
+                    // Agregar a la lista
                     lista.Add(aux);
                 }
                 return lista;
@@ -89,7 +96,9 @@ namespace Negocio
             }
         }
 
-      public void AgregarImagen(ArtImg Imagen, Articulo art)
+
+
+        public void AgregarImagen(ArtImg Imagen, Articulo art)
         {
             AccesoDatos datos = new AccesoDatos();
 
@@ -167,20 +176,28 @@ namespace Negocio
 
         public void Eliminar(int Id)
         {
-           
+
             try
             {
+                // Crear una instancia de la clase AccesoDatos para manejar las consultas
                 AccesoDatos datos = new AccesoDatos();
-                datos.SetearConsulta("delete from ARTICULOS where id = @Id");
-                datos.setearParametro("@Id", Id);
-                datos.EjecutarAccion();
 
+                // Realizar la eliminación, el trigger se encargará de evitarla si hay stock
+                datos.SetearConsulta("DELETE FROM ARTICULOS WHERE id = @Id");
+                datos.setearParametro("@Id", Id);
+                datos.EjecutarAccion();  // Si el trigger lanza un error, la ejecución se detendrá
+
+            }
+            catch (SqlException ex)
+            {
+                // Si ocurre un error con el trigger, lanzamos la excepción para que sea manejada en el formulario
+                throw new Exception("Error al eliminar el artículo: " + ex.Message);
             }
             catch (Exception ex)
             {
-                throw;
+                throw new Exception("Ocurrió un error: " + ex.Message);
             }
-         
+
         }
 
         public void Modificar(Articulo articulo)
@@ -214,137 +231,52 @@ namespace Negocio
             List<Articulo> lista = new List<Articulo>();
             AccesoDatos datos = new AccesoDatos();
 
-            try 
+            try
             {
-                string consulta = @"
-                                        SELECT
-                                        A.Id,
-                                        A.Codigo, 
-                                        A.Nombre, 
-                                        A.Descripcion, 
-                                        M.Descripcion AS MarcaDescripcion, 
-                                        C.Descripcion AS CategoriaDescripcion, 
-                                        A.Precio,
-                                        M.Id as IdMarca,
-                                        C.Id as IdCategoria,
-                                        I.ImagenUrl as Imagen
-                                        FROM ARTICULOS AS A
-                                        LEFT JOIN Marcas AS M ON A.IdMarca = M.Id
-                                        LEFT JOIN Categorias AS C ON A.IdCategoria = C.Id
-                                        LEFT JOIN IMAGENES AS I ON I.IdArticulo = A.Id
-                                        WHERE ";
-                switch(campo)
-                {
-                    case "Codigo":
-                        switch (criterio)
-                        {
-                            case "Comienza con":
-                                consulta += "A.Codigo like '" + filtro + "%' ";
-                                break;
-                            case "Termina con":
-                                consulta += "A.Codigo like '%" + filtro + "'";
-                                break;
-                            default:
-                                consulta += "A.Codigo like '%" + filtro + "%'";
-                                break;
-                        }
-                        break;
-                    case "Nombre":
-                        switch (criterio)
-                        {
-                            case "Comienza con":
-                                consulta += "A.Nombre like '" + filtro + "%' ";
-                                break;
-                            case "Termina con":
-                                consulta += "A.Nombre like '%" + filtro + "'";
-                                break;
-                            default:
-                                consulta += "A.Nombre like '%" + filtro + "%'";
-                                break;
-                        }
-                        break;
-                    case "Marca":
-                        switch (criterio)
-                        {
-                            case "Comienza con":
-                                consulta += "M.Descripcion like '" + filtro + "%' ";
-                                break;
-                            case "Termina con":
-                                consulta += "M.Descripcion like '%" + filtro + "'";
-                                break;
-                            default:
-                                consulta += "M.Descripcion like '%" + filtro + "%'";
-                                break;
-                        }
-                        break;
-                    case "Categoria":
-                        switch (criterio)
-                        {
-                            case "Comienza con":
-                                consulta += "C.Descripcion like '" + filtro + "%' ";
-                                break;
-                            case "Termina con":
-                                consulta += "C.Descripcion like '%" + filtro + "'";
-                                break;
-                            default:
-                                consulta += "C.Descripcion like '%" + filtro + "%'";
-                                break;
-                        }
-                        break;
-
-                    case "Precio":
-                        switch (criterio)
-                        {
-                            case "Mayor a":
-                                consulta += "A.Precio > " + filtro;
-                                break;
-                            case "Menor a":
-                                consulta += "A.Precio < " + filtro;
-                                break;
-                            default:
-                                consulta += "A.Precio = " + filtro;
-                                break;
-                        }
-                        break;
-                }
-                datos.SetearConsulta(consulta);
+                datos.SetearConsulta("spFiltrarArticulos");
+                datos.setearParametro("@Campo", campo);
+                datos.setearParametro("@Criterio", criterio);
+                datos.setearParametro("@Filtro", filtro);
                 datos.EjecutarLectura();
 
                 while (datos.lector.Read())
                 {
-                    Articulo aux = new Articulo();
-                    aux.Codigo = (string)datos.lector["Codigo"];
-                    aux.Id = (int)datos.lector["Id"];
-                    aux.Nombre = (string)datos.lector["Nombre"];
-                    aux.Descripcion = (string)datos.lector["Descripcion"];
-                    aux.MarcasCls = new Marcas();
-                    aux.MarcasCls.Descripcion = (string)datos.lector["MarcaDescripcion"];
-                    if (!(datos.lector["IdMarca"] is DBNull))
-                        aux.MarcasCls.Id = (int)datos.lector["IdMarca"];
-                    if (!(datos.lector["MarcaDescripcion"] is DBNull))
-
-                        aux.CategoriasCls = new Categorias();
-                    //validacion de null categoria
-                    if (!(datos.lector["IdCategoria"] is DBNull))
-                        aux.CategoriasCls.Id = (int)datos.lector["IdCategoria"];
-                    if (!(datos.lector["CategoriaDescripcion"] is DBNull))
-                        aux.CategoriasCls.Descripcion = (string)datos.lector["CategoriaDescripcion"];
-
-                    aux.Precio = (decimal)datos.lector["Precio"];
-
-                    aux.Imagen = new ArtImg();
-                    if (!(datos.lector["Imagen"] is DBNull))
-                        aux.Imagen.ImagenUrl = datos.lector["Imagen"].ToString();
-
+                    Articulo aux = new Articulo
+                    {
+                        Codigo = (string)datos.lector["Codigo"],
+                        Id = (int)datos.lector["Id"],
+                        Nombre = (string)datos.lector["Nombre"],
+                        Descripcion = (string)datos.lector["Descripcion"],
+                        Precio = (decimal)datos.lector["Precio"],
+                        MarcasCls = new Marcas
+                        {
+                            Id = datos.lector["IdMarca"] as int? ?? 0,
+                            Descripcion = datos.lector["MarcaDescripcion"] as string
+                        },
+                        CategoriasCls = new Categorias
+                        {
+                            Id = datos.lector["IdCategoria"] as int? ?? 0,
+                            Descripcion = datos.lector["CategoriaDescripcion"] as string
+                        },
+                        Imagen = new ArtImg
+                        {
+                            ImagenUrl = datos.lector["Imagen"] as string
+                        }
+                    };
                     lista.Add(aux);
                 }
                 return lista;
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
-
+            finally
+            {
+                datos.CerrarConexion();
+            }
         }
+
+
     }
 }

@@ -8,9 +8,9 @@ namespace Dominio
 {
     public class Stock
     {
-        public int Sku { get; set; }
-        public int IdSitio { get; set; }
-        public int CantidadStock { get; set; }
+        public int id { get; set; }
+        public int id_sitio { get; set; }
+        public int stock { get; set; }
 
     }
 }

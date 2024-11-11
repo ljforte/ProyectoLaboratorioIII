@@ -84,7 +84,7 @@ namespace LaboratorioIII_Proyecto
             catch (Exception ex)
             {
 
-                MessageBox.Show("No se pudo borrar el articulo");
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         public void cargarCategoria()

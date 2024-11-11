@@ -46,23 +46,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AltaImagen.cs" />
+    <Compile Include="AltaImagen.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="AltaImagen.Designer.cs">
       <DependentUpon>AltaImagen.cs</DependentUpon>
     </Compile>
-    <Compile Include="Articulo\frmAltaArticulo.cs" />
+    <Compile Include="Articulo\frmAltaArticulo.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Articulo\frmAltaArticulo.Designer.cs">
       <DependentUpon>frmAltaArticulo.cs</DependentUpon>
     </Compile>
-    <Compile Include="Articulo\frmArticulo.cs" />
+    <Compile Include="Articulo\frmArticulo.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Articulo\frmArticulo.Designer.cs">
       <DependentUpon>frmArticulo.cs</DependentUpon>
     </Compile>
-    <Compile Include="Categorias\frmAltaCategorias.cs" />
+    <Compile Include="Categorias\frmAltaCategorias.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Categorias\frmAltaCategorias.Designer.cs">
       <DependentUpon>frmAltaCategorias.cs</DependentUpon>
     </Compile>
-    <Compile Include="Categorias\frmCategorias.cs" />
+    <Compile Include="Categorias\frmCategorias.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Categorias\frmCategorias.Designer.cs">
       <DependentUpon>frmCategorias.cs</DependentUpon>
     </Compile>
@@ -72,19 +82,27 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmPrincipal.cs" />
+    <Compile Include="frmPrincipal.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmPrincipal.Designer.cs">
       <DependentUpon>frmPrincipal.cs</DependentUpon>
     </Compile>
-    <Compile Include="ListarImg.cs" />
+    <Compile Include="ListarImg.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="ListarImg.Designer.cs">
       <DependentUpon>ListarImg.cs</DependentUpon>
     </Compile>
-    <Compile Include="Marcas\frmAltaMarca.cs" />
+    <Compile Include="Marcas\frmAltaMarca.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Marcas\frmAltaMarca.Designer.cs">
       <DependentUpon>frmAltaMarca.cs</DependentUpon>
     </Compile>
-    <Compile Include="Marcas\frmMarca.cs" />
+    <Compile Include="Marcas\frmMarca.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Marcas\frmMarca.Designer.cs">
       <DependentUpon>frmMarca.cs</DependentUpon>
     </Compile>

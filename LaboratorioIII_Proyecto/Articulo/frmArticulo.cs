@@ -49,7 +49,7 @@ namespace LaboratorioIII_Proyecto
                 ListaArticulos = negocio.ListarArticulos();
                 dgvListarArticulos.DataSource = ListaArticulos;
                 //picbxArticulo.Load(ListaArticulos[0].Imagen.ImagenUrl);
-                cargarImagen(ListaArticulos[0].Imagen.ImagenUrl);
+                cargarImagen(ListaArticulos[0].Imagen.ImagenUrl); 
                 //dgvListarArticulos.Columns["ImagenUrl"].Visible = false;
                 //dgvListarArticulos.Columns["Id"].Visible = false;
             }
@@ -202,7 +202,7 @@ namespace LaboratorioIII_Proyecto
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
-            ArticuloNegocio negocio = new ArticuloNegocio();
+           
 
             try
             {
