@@ -180,18 +180,15 @@ namespace Negocio
 
             try
             {
-                // Crear una instancia de la clase AccesoDatos para manejar las consultas
-                AccesoDatos datos = new AccesoDatos();
 
-                // Realizar la eliminación, el trigger se encargará de evitarla si hay stock
+                AccesoDatos datos = new AccesoDatos();
                 datos.SetearConsulta("DELETE FROM ARTICULOS WHERE id = @Id");
                 datos.setearParametro("@Id", Id);
-                datos.EjecutarAccion();  // Si el trigger lanza un error, la ejecución se detendrá
+                datos.EjecutarAccion();  // Si el trigger funciona la ejecucion se detiene
 
             }
             catch (SqlException ex)
             {
-                // Si ocurre un error con el trigger, lanzamos la excepción para que sea manejada en el formulario
                 throw new Exception("Error al eliminar el artículo: " + ex.Message);
             }
             catch (Exception ex)

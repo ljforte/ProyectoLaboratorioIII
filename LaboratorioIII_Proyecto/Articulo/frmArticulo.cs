@@ -112,18 +112,10 @@ namespace LaboratorioIII_Proyecto
         {
             negocio = new ArticuloNegocio();
             Articulo seleccionado;
-            try
-            {
+
                 seleccionado = (Articulo)dgvListarArticulos.CurrentRow.DataBoundItem;
                 negocio.Eliminar(seleccionado.Id);
                 cargarArticulo();
-                MessageBox.Show(seleccionado.Nombre + " eliminado correctamente");
-            }
-            catch (Exception ex)
-            {
-
-                MessageBox.Show("No podra eliminar articulos con stock mayor o igual a 1");
-            }
         }
 
        
