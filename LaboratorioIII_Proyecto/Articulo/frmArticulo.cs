@@ -122,7 +122,7 @@ namespace LaboratorioIII_Proyecto
             catch (Exception ex)
             {
 
-                MessageBox.Show("No se pudo borrar el articulo");
+                MessageBox.Show("No podra eliminar articulos con stock mayor o igual a 1");
             }
         }
 
@@ -189,21 +189,15 @@ namespace LaboratorioIII_Proyecto
 
         private void txtBuscar_TextChanged(object sender, EventArgs e)
         {
-
             negocio = new ArticuloNegocio();    
             ListaArticulos = negocio.ListarArticulos();
             if (txtBuscar.TextLength>0)
                 ListaArticulos = ListaArticulos.FindAll(x => x.Nombre.ToLower().Contains(txtBuscar.Text.ToLower())).ToList();
             dgvListarArticulos.DataSource = ListaArticulos;
-
-
-
         }
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
-           
-
             try
             {
                 string campo = cbxCampo.SelectedItem.ToString();
@@ -222,6 +216,39 @@ namespace LaboratorioIII_Proyecto
         private void dgvListarArticulos_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        private void btnDeshabilitar_Click(object sender, EventArgs e)
+        {
+            negocio = new ArticuloNegocio();
+            Articulo seleccionado;
+            try
+            {
+                seleccionado = (Articulo)dgvListarArticulos.CurrentRow.DataBoundItem;
+                negocio.bajaLogica(seleccionado.Id);
+                MessageBox.Show(seleccionado.Nombre + " deshabilitado correctamente");
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show("No se pudo deshabilitar el producto.");
+            }
+
+        }
+
+        private void btnProveedor_Click(object sender, EventArgs e)
+        {
+            ProveedorNegocio prov = new ProveedorNegocio();
+            Proveedor proveedor = new Proveedor();
+            try
+            {
+                proveedor = prov.ObtenerProveedorConMasArticulos();
+                MessageBox.Show("Proveedor con mas articulos : " + proveedor.nombre + "con " + proveedor.CantidadArticulos + " items.");
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Error al mostrar proveedor");
+            }
         }
     }
 }

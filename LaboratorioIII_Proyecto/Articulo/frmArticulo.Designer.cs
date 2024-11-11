@@ -53,6 +53,10 @@
             this.tsmCategoria = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmSalir = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.clienteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cargarClienteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnDeshabilitar = new System.Windows.Forms.Button();
+            this.btnProveedor = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvListarArticulos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picbxArticulo)).BeginInit();
             this.contextMenuStrip2.SuspendLayout();
@@ -77,7 +81,7 @@
             // 
             // btnAgregar
             // 
-            this.btnAgregar.Location = new System.Drawing.Point(146, 364);
+            this.btnAgregar.Location = new System.Drawing.Point(146, 356);
             this.btnAgregar.Name = "btnAgregar";
             this.btnAgregar.Size = new System.Drawing.Size(156, 34);
             this.btnAgregar.TabIndex = 0;
@@ -87,7 +91,7 @@
             // 
             // btnModificar
             // 
-            this.btnModificar.Location = new System.Drawing.Point(146, 432);
+            this.btnModificar.Location = new System.Drawing.Point(146, 396);
             this.btnModificar.Name = "btnModificar";
             this.btnModificar.Size = new System.Drawing.Size(156, 34);
             this.btnModificar.TabIndex = 1;
@@ -97,7 +101,7 @@
             // 
             // btnEliminar
             // 
-            this.btnEliminar.Location = new System.Drawing.Point(146, 505);
+            this.btnEliminar.Location = new System.Drawing.Point(146, 436);
             this.btnEliminar.Name = "btnEliminar";
             this.btnEliminar.Size = new System.Drawing.Size(156, 34);
             this.btnEliminar.TabIndex = 2;
@@ -167,7 +171,7 @@
             // 
             this.cbxCampo.FormattingEnabled = true;
             this.cbxCampo.Location = new System.Drawing.Point(12, 379);
-            this.cbxCampo.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbxCampo.Margin = new System.Windows.Forms.Padding(2);
             this.cbxCampo.Name = "cbxCampo";
             this.cbxCampo.Size = new System.Drawing.Size(116, 21);
             this.cbxCampo.TabIndex = 6;
@@ -177,7 +181,7 @@
             // 
             this.cbxCriterio.FormattingEnabled = true;
             this.cbxCriterio.Location = new System.Drawing.Point(12, 432);
-            this.cbxCriterio.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbxCriterio.Margin = new System.Windows.Forms.Padding(2);
             this.cbxCriterio.Name = "cbxCriterio";
             this.cbxCriterio.Size = new System.Drawing.Size(116, 21);
             this.cbxCriterio.TabIndex = 7;
@@ -185,7 +189,7 @@
             // txtBuscar
             // 
             this.txtBuscar.Location = new System.Drawing.Point(12, 498);
-            this.txtBuscar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtBuscar.Margin = new System.Windows.Forms.Padding(2);
             this.txtBuscar.Name = "txtBuscar";
             this.txtBuscar.Size = new System.Drawing.Size(115, 20);
             this.txtBuscar.TabIndex = 8;
@@ -194,7 +198,7 @@
             // btnBuscar
             // 
             this.btnBuscar.Location = new System.Drawing.Point(12, 521);
-            this.btnBuscar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnBuscar.Margin = new System.Windows.Forms.Padding(2);
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(56, 19);
             this.btnBuscar.TabIndex = 9;
@@ -205,7 +209,7 @@
             // btnLimpiarBusqueda
             // 
             this.btnLimpiarBusqueda.Location = new System.Drawing.Point(73, 521);
-            this.btnLimpiarBusqueda.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnLimpiarBusqueda.Margin = new System.Windows.Forms.Padding(2);
             this.btnLimpiarBusqueda.Name = "btnLimpiarBusqueda";
             this.btnLimpiarBusqueda.Size = new System.Drawing.Size(56, 19);
             this.btnLimpiarBusqueda.TabIndex = 10;
@@ -257,28 +261,29 @@
             // tsmMarca
             // 
             this.tsmMarca.Name = "tsmMarca";
-            this.tsmMarca.Size = new System.Drawing.Size(125, 22);
+            this.tsmMarca.Size = new System.Drawing.Size(180, 22);
             this.tsmMarca.Text = "Marca";
             this.tsmMarca.Click += new System.EventHandler(this.tsmMarca_Click);
             // 
             // tsmCategoria
             // 
             this.tsmCategoria.Name = "tsmCategoria";
-            this.tsmCategoria.Size = new System.Drawing.Size(125, 22);
+            this.tsmCategoria.Size = new System.Drawing.Size(180, 22);
             this.tsmCategoria.Text = "Categoria";
             this.tsmCategoria.Click += new System.EventHandler(this.tsmCategoria_Click);
             // 
             // tsmSalir
             // 
             this.tsmSalir.Name = "tsmSalir";
-            this.tsmSalir.Size = new System.Drawing.Size(125, 22);
+            this.tsmSalir.Size = new System.Drawing.Size(180, 22);
             this.tsmSalir.Text = "Salir";
             // 
             // menuStrip1
             // 
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tspCatalogo});
+            this.tspCatalogo,
+            this.clienteToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
@@ -286,12 +291,48 @@
             this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStrip1";
             // 
+            // clienteToolStripMenuItem
+            // 
+            this.clienteToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cargarClienteToolStripMenuItem});
+            this.clienteToolStripMenuItem.Name = "clienteToolStripMenuItem";
+            this.clienteToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
+            this.clienteToolStripMenuItem.Text = "Cliente";
+            // 
+            // cargarClienteToolStripMenuItem
+            // 
+            this.cargarClienteToolStripMenuItem.Name = "cargarClienteToolStripMenuItem";
+            this.cargarClienteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.cargarClienteToolStripMenuItem.Text = "Cargar Cliente";
+            // 
+            // btnDeshabilitar
+            // 
+            this.btnDeshabilitar.Location = new System.Drawing.Point(146, 476);
+            this.btnDeshabilitar.Name = "btnDeshabilitar";
+            this.btnDeshabilitar.Size = new System.Drawing.Size(156, 34);
+            this.btnDeshabilitar.TabIndex = 18;
+            this.btnDeshabilitar.Text = "Deshabilitar Articulo";
+            this.btnDeshabilitar.UseVisualStyleBackColor = true;
+            this.btnDeshabilitar.Click += new System.EventHandler(this.btnDeshabilitar_Click);
+            // 
+            // btnProveedor
+            // 
+            this.btnProveedor.Location = new System.Drawing.Point(146, 516);
+            this.btnProveedor.Name = "btnProveedor";
+            this.btnProveedor.Size = new System.Drawing.Size(156, 34);
+            this.btnProveedor.TabIndex = 19;
+            this.btnProveedor.Text = "Ver Proveedor MAX";
+            this.btnProveedor.UseVisualStyleBackColor = true;
+            this.btnProveedor.Click += new System.EventHandler(this.btnProveedor_Click);
+            // 
             // frmArticulo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.LightGray;
             this.ClientSize = new System.Drawing.Size(680, 571);
+            this.Controls.Add(this.btnProveedor);
+            this.Controls.Add(this.btnDeshabilitar);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.lblBuscar);
             this.Controls.Add(this.btnLimpiarBusqueda);
@@ -356,5 +397,9 @@
         private System.Windows.Forms.ToolStripMenuItem tsmCategoria;
         private System.Windows.Forms.ToolStripMenuItem tsmSalir;
         private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem clienteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem cargarClienteToolStripMenuItem;
+        private System.Windows.Forms.Button btnDeshabilitar;
+        private System.Windows.Forms.Button btnProveedor;
     }
 }

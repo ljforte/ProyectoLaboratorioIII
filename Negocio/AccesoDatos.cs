@@ -9,7 +9,7 @@ namespace Negocio
     public class AccesoDatos
     {
         private SqlConnection conexion;
-        private SqlCommand comando;
+        public SqlCommand comando;
         private SqlDataReader Lector;
         public SqlDataReader lector
         {
@@ -70,6 +70,13 @@ namespace Negocio
         public void setearParametro(string nombre, object valor)
         {
             comando.Parameters.AddWithValue(nombre, valor);
+        }
+
+        public void setearProcedimiento(string sp)
+        {
+            comando.CommandType = System.Data.CommandType.StoredProcedure;
+            comando.CommandText = sp;
+
         }
 
     }

@@ -62,6 +62,16 @@ namespace LaboratorioIII_Proyecto
                     this.articulo.Precio = decimal.Parse(txtbPrecio.Text);
                     this.articulo.Descripcion = txtbDescAr.Text;
                     this.articulo.Imagen = new ArtImg();
+                    this.articulo.StockCls = new Stock();
+                    this.articulo.StockCls.stock = int.Parse(txtStock.Text);
+                if (checkBoxEstado.Checked)
+                {
+                    this.articulo.Estado = true;
+                }
+                else
+                {
+                    this.articulo.Estado = false;
+                }
                     img.ImagenUrl = txtbUrlImagen.Text;
 
                 if (btnAgregar.Text == "Agregar")
@@ -145,6 +155,21 @@ namespace LaboratorioIII_Proyecto
         {
             ListarImg listarImg = new ListarImg(articulo);
             listarImg.ShowDialog();
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

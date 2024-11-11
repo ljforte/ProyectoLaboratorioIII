@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -96,5 +97,39 @@ namespace Negocio
                 datos.CerrarConexion();
             }
         }
+
+
+        public Proveedor ObtenerProveedorConMasArticulos()
+        {
+            Proveedor proveedor = null;
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearProcedimiento("sp_ProveedorConMasArticulos");
+                datos.EjecutarLectura();
+
+                if (datos.lector.Read())
+                {
+                    proveedor = new Proveedor
+                    {
+                        id_proveedor = (int)datos.lector["id_proveedor"],
+                        nombre = datos.lector["Nombre"].ToString(),
+                        CantidadArticulos = (int)datos.lector["CantidadArticulos"]
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+
+            return proveedor;
+        }
+
     }
 }

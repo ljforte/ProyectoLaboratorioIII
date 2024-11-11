@@ -16,6 +16,7 @@ namespace Dominio
 
         [DisplayName("Dirección ID")]
         public int direccionID { get; set; }
+        public int CantidadArticulos { get; set; }
 
         public override string ToString()
         {

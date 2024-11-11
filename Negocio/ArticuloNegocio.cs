@@ -22,26 +22,7 @@ namespace Negocio
             {
                 // Consulta SQL
                 datos.SetearConsulta(@"
-                            SELECT 
-            A.Id,
-            A.Codigo, 
-            A.Nombre, 
-            A.Descripcion, 
-            M.Descripcion AS Marca, 
-            C.Descripcion AS Categoria, 
-            A.Precio,
-            M.Id as IdMarca,
-            C.Id as IdCategoria,
-            I.ImagenUrl as Imagen,
-            P.Nombre AS ProveedorNombre,
-            P.id_proveedor AS IdProveedor,
-			s.stock as Stock
-        FROM ARTICULOS AS A 
-        LEFT JOIN Marcas AS M ON A.IdMarca = M.Id 
-        LEFT JOIN Categorias AS C ON A.IdCategoria = C.Id
-        LEFT JOIN IMAGENES AS I ON I.IdArticulo = A.Id
-        LEFT JOIN Proveedor AS P ON A.id_proveedor = P.id_proveedor
-		LEFT JOIN Stock as S ON A.id = S.id");
+                            SELECT * FROM ListarArticulos");
 
                 datos.EjecutarLectura();
 
@@ -143,12 +124,13 @@ namespace Negocio
         {
             AccesoDatos datos = new AccesoDatos();
             AccesoDatos datosImagen = new AccesoDatos();
+            AccesoDatos datos2 = new AccesoDatos();
             try
             {
 
                 datos.SetearConsulta(
-                                     "INSERT INTO ARTICULOS (Codigo, Nombre, Descripcion, Precio, idMarca, idCategoria) " +
-                                     "VALUES (@Codigo, @Nombre, @Descripcion, @Precio, @IdMarca, @IdCategoria); "
+                                     "INSERT INTO ARTICULOS (Codigo, Nombre, Descripcion, Precio, idMarca, idCategoria, estado) " +
+                                     "VALUES (@Codigo, @Nombre, @Descripcion, @Precio, @IdMarca, @IdCategoria, @Estado); "
                                      );
                 // Tabla articulos
                 datos.setearParametro("@Codigo", art.Codigo);
@@ -157,12 +139,31 @@ namespace Negocio
                 datos.setearParametro("@Precio", art.Precio);
                 datos.setearParametro("@IdMarca", art.MarcasCls.Id);
                 datos.setearParametro("@IdCategoria", art.CategoriasCls.Id);
+                datos.setearParametro("@Estado", art.Estado);
+
                 //Tabla imagenes, insertados en 2do insert
                 datos.EjecutarAccion();
-
                 AgregarImagen(img, art);
 
+                try
+                {
 
+                    int id_producto = ConsultarId(art);
+
+                    datos2.SetearConsulta(@"
+                                    INSERT INTO STOCK (id,stock,id_sitio) values (@id, @stock, 1)");
+
+                    datos2.setearParametro("@id", id_producto);
+                    datos2.setearParametro("@stock", art.StockCls.stock);
+                    datos2.EjecutarAccion();
+                }catch(Exception ex)
+                {
+                    throw ex;
+                }
+                finally
+                {
+                    datos2.CerrarConexion();
+                }
             }
             catch (Exception ex) 
             {
@@ -277,6 +278,26 @@ namespace Negocio
             }
         }
 
+        public void bajaLogica(int id)
+        {
+            AccesoDatos datos = new AccesoDatos();
 
+            try
+            {
+                datos.setearProcedimiento("sp_BajaLogicaProducto");  
+                datos.setearParametro("@Id", id);
+                datos.EjecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                // Manejo de errores
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+
+        }
     }
 }
