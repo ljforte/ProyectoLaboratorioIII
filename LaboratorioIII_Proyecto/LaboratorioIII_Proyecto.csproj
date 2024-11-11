@@ -1,0 +1,156 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C91E53B7-B9FC-4A13-8D97-35B46891F527}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>LaboratorioIII_Proyecto</RootNamespace>
+    <AssemblyName>LaboratorioIII_Proyecto</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AltaImagen.cs" />
+    <Compile Include="AltaImagen.Designer.cs">
+      <DependentUpon>AltaImagen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Articulo\frmAltaArticulo.cs" />
+    <Compile Include="Articulo\frmAltaArticulo.Designer.cs">
+      <DependentUpon>frmAltaArticulo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Articulo\frmArticulo.cs" />
+    <Compile Include="Articulo\frmArticulo.Designer.cs">
+      <DependentUpon>frmArticulo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Categorias\frmAltaCategorias.cs" />
+    <Compile Include="Categorias\frmAltaCategorias.Designer.cs">
+      <DependentUpon>frmAltaCategorias.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Categorias\frmCategorias.cs" />
+    <Compile Include="Categorias\frmCategorias.Designer.cs">
+      <DependentUpon>frmCategorias.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmPrincipal.cs" />
+    <Compile Include="frmPrincipal.Designer.cs">
+      <DependentUpon>frmPrincipal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ListarImg.cs" />
+    <Compile Include="ListarImg.Designer.cs">
+      <DependentUpon>ListarImg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Marcas\frmAltaMarca.cs" />
+    <Compile Include="Marcas\frmAltaMarca.Designer.cs">
+      <DependentUpon>frmAltaMarca.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Marcas\frmMarca.cs" />
+    <Compile Include="Marcas\frmMarca.Designer.cs">
+      <DependentUpon>frmMarca.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="AltaImagen.resx">
+      <DependentUpon>AltaImagen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Articulo\frmAltaArticulo.resx">
+      <DependentUpon>frmAltaArticulo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Articulo\frmArticulo.resx">
+      <DependentUpon>frmArticulo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Categorias\frmAltaCategorias.resx">
+      <DependentUpon>frmAltaCategorias.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Categorias\frmCategorias.resx">
+      <DependentUpon>frmCategorias.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPrincipal.resx">
+      <DependentUpon>frmPrincipal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ListarImg.resx">
+      <DependentUpon>ListarImg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Marcas\frmAltaMarca.resx">
+      <DependentUpon>frmAltaMarca.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Marcas\frmMarca.resx">
+      <DependentUpon>frmMarca.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DB\CATALOGO_DB_v3.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Dominio\Dominio.csproj">
+      <Project>{920f8179-08d9-4a73-b02b-d146d521c0bf}</Project>
+      <Name>Dominio</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Negocio\Negocio.csproj">
+      <Project>{89f6bac7-ffd8-4f93-8693-ef684f7c2587}</Project>
+      <Name>Negocio</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
