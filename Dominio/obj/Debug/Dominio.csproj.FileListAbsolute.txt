@@ -1,0 +1,6 @@
+C:\Users\Lionel Messi\source\repos\Proyecto Laboratorio\Dominio\bin\Debug\Dominio.dll
+C:\Users\Lionel Messi\source\repos\Proyecto Laboratorio\Dominio\bin\Debug\Dominio.pdb
+C:\Users\Lionel Messi\source\repos\Proyecto Laboratorio\Dominio\obj\Debug\Dominio.csproj.AssemblyReference.cache
+C:\Users\Lionel Messi\source\repos\Proyecto Laboratorio\Dominio\obj\Debug\Dominio.csproj.CoreCompileInputs.cache
+C:\Users\Lionel Messi\source\repos\Proyecto Laboratorio\Dominio\obj\Debug\Dominio.dll
+C:\Users\Lionel Messi\source\repos\Proyecto Laboratorio\Dominio\obj\Debug\Dominio.pdb
