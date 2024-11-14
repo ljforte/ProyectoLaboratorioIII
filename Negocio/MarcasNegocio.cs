@@ -17,7 +17,7 @@ namespace Negocio
 
             try
             {
-                datos.SetearConsulta("SELECT Id, Descripcion from MARCAS");
+                datos.SetearConsulta("SELECT idMarca, nombre from MARCAS");
                 datos.EjecutarLectura();
                 
 
@@ -25,8 +25,8 @@ namespace Negocio
                 {
                     Marcas aux = new Marcas();
 
-                    aux.Id = (int)datos.lector["Id"];
-                    aux.Descripcion = (string)datos.lector["Descripcion"];
+                    aux.Id = (int)datos.lector["idMarca"];
+                    aux.nombre = (string)datos.lector["nombre"];
                     list.Add(aux);
                 }
                 return list;
@@ -47,8 +47,8 @@ namespace Negocio
 
             try
             {
-                datos.SetearConsulta("INSERT INTO Marcas (Descripcion) VALUES (@Descripcion)");
-                datos.setearParametro("@Descripcion", marcas.Descripcion); 
+                datos.SetearConsulta("INSERT INTO Marcas (nombre) VALUES (@nombre)");
+                datos.setearParametro("@nombre", marcas.nombre); 
                 datos.EjecutarAccion();
 
             }
@@ -67,8 +67,8 @@ namespace Negocio
             try
             {
                 AccesoDatos datos = new AccesoDatos();
-                datos.SetearConsulta("delete from MARCAS where id = @id");
-                datos.setearParametro("@id", id);
+                datos.SetearConsulta("delete from MARCAS where IdMarca = @id");
+                datos.setearParametro("@IdMarca", id);
                 datos.EjecutarAccion();
 
             }
@@ -85,9 +85,9 @@ namespace Negocio
             try
             {
                 
-                datos.SetearConsulta("UPDATE MARCAS SET Descripcion = @descripcion WHERE id = @id");
-                datos.setearParametro("@descripcion", marca.Descripcion);
-                datos.setearParametro("@id", marca.Id);
+                datos.SetearConsulta("UPDATE MARCAS SET nombre = @nombre WHERE idMarca = @id");
+                datos.setearParametro("@nombre", marca.nombre);
+                datos.setearParametro("@idMarca", marca.Id);
                 datos.EjecutarAccion();
             }
             catch (Exception ex)

@@ -23,6 +23,5 @@ namespace Dominio
         public int IdProveedor { get; set; }
         public bool Estado {  get; set; }
         public Proveedor ProveedorCls;
-        public Stock StockCls;
     }   
 }

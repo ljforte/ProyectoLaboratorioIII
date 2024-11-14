@@ -51,6 +51,8 @@
             this.txtStock = new System.Windows.Forms.TextBox();
             this.checkBoxEstado = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.txtSitio = new System.Windows.Forms.Label();
+            this.cbxSitio = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.pbxArticuloImagen)).BeginInit();
             this.SuspendLayout();
             // 
@@ -104,6 +106,7 @@
             this.cbxMarca.Name = "cbxMarca";
             this.cbxMarca.Size = new System.Drawing.Size(205, 21);
             this.cbxMarca.TabIndex = 3;
+            this.cbxMarca.SelectedIndexChanged += new System.EventHandler(this.cbxMarca_SelectedIndexChanged);
             // 
             // lblMarca
             // 
@@ -118,7 +121,7 @@
             // 
             this.cbxCat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxCat.FormattingEnabled = true;
-            this.cbxCat.Location = new System.Drawing.Point(121, 159);
+            this.cbxCat.Location = new System.Drawing.Point(121, 163);
             this.cbxCat.Name = "cbxCat";
             this.cbxCat.Size = new System.Drawing.Size(205, 21);
             this.cbxCat.TabIndex = 4;
@@ -126,7 +129,7 @@
             // lblCat
             // 
             this.lblCat.AutoSize = true;
-            this.lblCat.Location = new System.Drawing.Point(17, 167);
+            this.lblCat.Location = new System.Drawing.Point(17, 171);
             this.lblCat.Name = "lblCat";
             this.lblCat.Size = new System.Drawing.Size(65, 13);
             this.lblCat.TabIndex = 8;
@@ -167,7 +170,7 @@
             // 
             // btnAgregar
             // 
-            this.btnAgregar.Location = new System.Drawing.Point(12, 297);
+            this.btnAgregar.Location = new System.Drawing.Point(118, 343);
             this.btnAgregar.Name = "btnAgregar";
             this.btnAgregar.Size = new System.Drawing.Size(107, 35);
             this.btnAgregar.TabIndex = 7;
@@ -177,7 +180,7 @@
             // 
             // btnCancelarArticulo
             // 
-            this.btnCancelarArticulo.Location = new System.Drawing.Point(226, 297);
+            this.btnCancelarArticulo.Location = new System.Drawing.Point(332, 343);
             this.btnCancelarArticulo.Name = "btnCancelarArticulo";
             this.btnCancelarArticulo.Size = new System.Drawing.Size(100, 35);
             this.btnCancelarArticulo.TabIndex = 8;
@@ -204,7 +207,7 @@
             // 
             // pbxArticuloImagen
             // 
-            this.pbxArticuloImagen.Location = new System.Drawing.Point(353, 39);
+            this.pbxArticuloImagen.Location = new System.Drawing.Point(344, 39);
             this.pbxArticuloImagen.Name = "pbxArticuloImagen";
             this.pbxArticuloImagen.Size = new System.Drawing.Size(215, 240);
             this.pbxArticuloImagen.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -213,7 +216,7 @@
             // 
             // btnImagenModificar
             // 
-            this.btnImagenModificar.Location = new System.Drawing.Point(133, 297);
+            this.btnImagenModificar.Location = new System.Drawing.Point(239, 343);
             this.btnImagenModificar.Name = "btnImagenModificar";
             this.btnImagenModificar.Size = new System.Drawing.Size(87, 35);
             this.btnImagenModificar.TabIndex = 18;
@@ -225,7 +228,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(17, 245);
+            this.label2.Location = new System.Drawing.Point(17, 280);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(40, 13);
             this.label2.TabIndex = 20;
@@ -234,7 +237,7 @@
             // 
             // txtStock
             // 
-            this.txtStock.Location = new System.Drawing.Point(121, 245);
+            this.txtStock.Location = new System.Drawing.Point(121, 280);
             this.txtStock.Name = "txtStock";
             this.txtStock.Size = new System.Drawing.Size(205, 20);
             this.txtStock.TabIndex = 19;
@@ -243,7 +246,7 @@
             // checkBoxEstado
             // 
             this.checkBoxEstado.AutoSize = true;
-            this.checkBoxEstado.Location = new System.Drawing.Point(121, 274);
+            this.checkBoxEstado.Location = new System.Drawing.Point(121, 306);
             this.checkBoxEstado.Name = "checkBoxEstado";
             this.checkBoxEstado.Size = new System.Drawing.Size(89, 17);
             this.checkBoxEstado.TabIndex = 21;
@@ -253,19 +256,40 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(17, 274);
+            this.label3.Location = new System.Drawing.Point(17, 306);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(101, 13);
             this.label3.TabIndex = 22;
             this.label3.Text = "Activar Articulo?";
             this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
+            // txtSitio
+            // 
+            this.txtSitio.AutoSize = true;
+            this.txtSitio.Location = new System.Drawing.Point(17, 253);
+            this.txtSitio.Name = "txtSitio";
+            this.txtSitio.Size = new System.Drawing.Size(32, 13);
+            this.txtSitio.TabIndex = 24;
+            this.txtSitio.Text = "Sitio";
+            // 
+            // cbxSitio
+            // 
+            this.cbxSitio.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxSitio.FormattingEnabled = true;
+            this.cbxSitio.Location = new System.Drawing.Point(121, 245);
+            this.cbxSitio.Name = "cbxSitio";
+            this.cbxSitio.Size = new System.Drawing.Size(205, 21);
+            this.cbxSitio.TabIndex = 23;
+            this.cbxSitio.SelectedIndexChanged += new System.EventHandler(this.cbxSitio_SelectedIndexChanged);
+            // 
             // frmAltaArticulo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonShadow;
-            this.ClientSize = new System.Drawing.Size(571, 344);
+            this.ClientSize = new System.Drawing.Size(571, 411);
+            this.Controls.Add(this.txtSitio);
+            this.Controls.Add(this.cbxSitio);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.checkBoxEstado);
             this.Controls.Add(this.label2);
@@ -292,9 +316,9 @@
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(587, 383);
+            this.MaximumSize = new System.Drawing.Size(587, 500);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(587, 383);
+            this.MinimumSize = new System.Drawing.Size(587, 450);
             this.Name = "frmAltaArticulo";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
@@ -332,5 +356,7 @@
         private System.Windows.Forms.TextBox txtStock;
         private System.Windows.Forms.CheckBox checkBoxEstado;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label txtSitio;
+        private System.Windows.Forms.ComboBox cbxSitio;
     }
 }

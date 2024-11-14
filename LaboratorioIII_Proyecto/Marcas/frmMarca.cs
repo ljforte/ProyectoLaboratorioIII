@@ -83,11 +83,10 @@ namespace LaboratorioIII_Proyecto
                 seleccionado = (Marcas)dgvListarMarcas.CurrentRow.DataBoundItem;
                 negocio.Eliminar(seleccionado.Id);
                 cargarMarca();
-                MessageBox.Show(seleccionado.Descripcion + " eliminado correctamente");
+                MessageBox.Show(seleccionado.nombre + " eliminado correctamente");
             }
             catch (Exception ex)
             {
-
                 MessageBox.Show("No se pudo borrar el articulo");
             }
         }

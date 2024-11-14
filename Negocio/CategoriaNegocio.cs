@@ -19,7 +19,7 @@ namespace Negocio
             {
                 
                 datos.SetearConsulta(
-                    "insert into CATEGORIAS (Descripcion) values ('" +categorias.Descripcion+"')");
+                    "insert into CATEGORIAS (nombre) values ('" +categorias.nombre+"')");
                 datos.EjecutarAccion();
                     }
 
@@ -33,15 +33,15 @@ namespace Negocio
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.SetearConsulta("SELECT Id,Descripcion from CATEGORIAS");
+                datos.SetearConsulta("SELECT IdCategoria,nombre from CATEGORIAS");
                 datos.EjecutarLectura();
 
                 while (datos.lector.Read())
                 {
                     Categorias aux = new Categorias();
 
-                    aux.Id = (int)datos.lector["Id"];
-                    aux.Descripcion = (string)datos.lector["Descripcion"];
+                    aux.Id = (int)datos.lector["IdCategoria"];
+                    aux.nombre = (string)datos.lector["nombre"];
                     
                     listaCategoria.Add(aux);
                 }
@@ -67,8 +67,8 @@ namespace Negocio
             try
             {
                 AccesoDatos datos = new AccesoDatos();
-                datos.SetearConsulta("delete from CATEGORIAS where id = @id");
-                datos.setearParametro("@id", id);
+                datos.SetearConsulta("delete from CATEGORIAS where IdCategoria = @id");
+                datos.setearParametro("@IdCategoria", id);
                 datos.EjecutarAccion();
 
             }
@@ -84,9 +84,9 @@ namespace Negocio
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.SetearConsulta("update CATEGORIAS set Descripcion = @Descripcion WHERE Id = @Id");
-                datos.setearParametro("@Id", categoria.Id);
-                datos.setearParametro("@Descripcion", categoria.Descripcion);                
+                datos.SetearConsulta("update CATEGORIAS set nombre = @nombre WHERE IdCategoria = @Id");
+                datos.setearParametro("@IdCategoria", categoria.Id);
+                datos.setearParametro("@nombre", categoria.nombre);                
                 datos.EjecutarAccion();
             }
             catch (Exception ex) { throw ex; }

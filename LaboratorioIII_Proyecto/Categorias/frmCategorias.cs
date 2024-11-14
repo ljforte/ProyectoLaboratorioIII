@@ -79,7 +79,7 @@ namespace LaboratorioIII_Proyecto
                 seleccionado = (Categorias)dgvCategorias.CurrentRow.DataBoundItem;
                 negocio.Eliminar(seleccionado.Id);
                 cargarCategoria();
-                MessageBox.Show(seleccionado.Descripcion + " eliminado correctamente");
+                MessageBox.Show(seleccionado.nombre + " eliminado correctamente");
             }
             catch (Exception ex)
             {
@@ -92,6 +92,7 @@ namespace LaboratorioIII_Proyecto
             CategoriaNegocio negocio = new CategoriaNegocio();
                 categorias = negocio.ListarCategoria();
                 dgvCategorias.DataSource = categorias;
+           
         }
     }
 }

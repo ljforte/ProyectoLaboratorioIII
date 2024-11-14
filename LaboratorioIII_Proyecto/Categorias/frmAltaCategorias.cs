@@ -41,7 +41,7 @@ namespace LaboratorioIII_Proyecto
             try
             {
                 if(categoria==null) this.categoria = new Categorias();
-                categoria.Descripcion = txtbxNombre.Text;
+                categoria.nombre = txtbxNombre.Text;
                
                 if (btnAgregar.Text=="Agregar")
                 {

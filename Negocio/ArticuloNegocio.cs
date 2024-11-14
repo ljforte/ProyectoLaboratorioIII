@@ -18,6 +18,7 @@ namespace Negocio
         {
             List<Articulo> lista = new List<Articulo>();
             AccesoDatos datos = new AccesoDatos();
+            Stock st = new Stock();
             try
             {
                 // Consulta SQL
@@ -39,11 +40,11 @@ namespace Negocio
 
                     // Asignar Marca
                     aux.MarcasCls = new Marcas();
-                    aux.MarcasCls.Descripcion = (string)datos.lector["Marca"];
+                    aux.MarcasCls.nombre = (string)datos.lector["Marca"];
 
                     // Asignar Categoria
                     aux.CategoriasCls = new Categorias();
-                    aux.CategoriasCls.Descripcion = (string)datos.lector["Categoria"];
+                    aux.CategoriasCls.nombre = (string)datos.lector["Categoria"];
 
                     
                     // Asignar Imagen
@@ -55,9 +56,6 @@ namespace Negocio
                     aux.ProveedorCls.id_proveedor = (int)datos.lector["id_proveedor"];
                     aux.ProveedorCls.nombre = (string)datos.lector["ProveedorNombre"];
 
-                    // Asignar Stock
-                    aux.StockCls = new Stock();
-                    aux.StockCls.stock =(int)datos.lector["Stock"]; 
 
                     // Para verificación
                     Console.WriteLine("Proveedor: " + aux.ProveedorCls.nombre);
@@ -124,11 +122,12 @@ namespace Negocio
 
 
         }
-        public void Agregar(Articulo art, ArtImg img)
+        public void Agregar(Articulo art, ArtImg img, Stock st)
         {
             AccesoDatos datos = new AccesoDatos();
             AccesoDatos datosImagen = new AccesoDatos();
             AccesoDatos datos2 = new AccesoDatos();
+            StockNegocio stNeg = new StockNegocio();
             try
             {
 
@@ -151,16 +150,9 @@ namespace Negocio
 
                 try
                 {
-
-                    int id_producto = ConsultarId(art);
-
-                    datos2.SetearConsulta(@"
-                                    INSERT INTO STOCK (id,stock,id_sitio) values (@id, @stock, 1)");
-
-                    datos2.setearParametro("@id", id_producto);
-                    datos2.setearParametro("@stock", art.StockCls.stock);
-                    datos2.EjecutarAccion();
-                }catch(Exception ex)
+                    stNeg.Agregar(st);
+                }
+                catch(Exception ex)
                 {
                     throw ex;
                 }
@@ -191,10 +183,6 @@ namespace Negocio
                 datos.EjecutarAccion();  // Si el trigger funciona la ejecucion se detiene
 
             }
-            catch (SqlException ex)
-            {
-                throw new Exception("Error al eliminar el artículo: " + ex.Message);
-            }
             catch (Exception ex)
             {
                 throw new Exception("Ocurrió un error: " + ex.Message);
@@ -202,13 +190,15 @@ namespace Negocio
 
         }
 
-        public void Modificar(Articulo articulo)
+        public void Modificar(Articulo articulo, ArtImg img, Stock st)
         {
             AccesoDatos Datos = new AccesoDatos();
+            StockNegocio stNeg = new StockNegocio();
             try
             {
 
-                Datos.SetearConsulta("update ARTICULOS set Codigo = @codigo, Nombre = @nombre, Descripcion = @descripcion, IdMarca = @IdMarca, IdCategoria = @IdCategoria,  Precio = @precio  Where Id = @id");
+                Datos.SetearConsulta("update ARTICULOS set Codigo = @codigo, Nombre = @nombre, Descripcion = @descripcion, " +
+                                    "IdMarca = @IdMarca, IdCategoria = @IdCategoria,  Precio = @precio  Where Id = @id");
                 Datos.setearParametro("@codigo", articulo.Codigo);
                 Datos.setearParametro("@nombre", articulo.Nombre);
                 Datos.setearParametro("@descripcion", articulo.Descripcion);
@@ -217,6 +207,18 @@ namespace Negocio
                 Datos.setearParametro("@precio", articulo.Precio);
                 Datos.setearParametro("@id", articulo.Id);
                 Datos.EjecutarAccion();
+
+                AgregarImagen(img, articulo);
+
+                    if (stNeg.ExisteRelacionStock(st))
+                    {
+                        stNeg.Modificar(st);
+                    }
+                    else
+                    {
+                        stNeg.Modificar(st);
+                    }
+
             }
             catch (Exception ex)
             {
@@ -253,12 +255,12 @@ namespace Negocio
                         MarcasCls = new Marcas
                         {
                             Id = datos.lector["IdMarca"] as int? ?? 0,
-                            Descripcion = datos.lector["MarcaDescripcion"] as string
+                            nombre = datos.lector["MarcaDescripcion"] as string
                         },
                         CategoriasCls = new Categorias
                         {
                             Id = datos.lector["IdCategoria"] as int? ?? 0,
-                            Descripcion = datos.lector["CategoriaDescripcion"] as string
+                            nombre = datos.lector["CategoriaDescripcion"] as string
                         },
                         Imagen = new ArtImg
                         {

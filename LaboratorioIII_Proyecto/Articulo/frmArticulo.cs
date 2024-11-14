@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -25,6 +26,7 @@ namespace LaboratorioIII_Proyecto
         
         private void frmArticulo_Load(object sender, EventArgs e)
         {
+
             cargarArticulo();
             cargarCbxCampo();
 
@@ -107,21 +109,41 @@ namespace LaboratorioIII_Proyecto
 
         private void btnModificar_Click(object sender, EventArgs e)
         {
-            Articulo Seleccionado = (Articulo)dgvListarArticulos.CurrentRow.DataBoundItem;
-            frmAltaArticulo modificar = new frmAltaArticulo(Seleccionado);
-            //CrearArticulo.MdiParent = this;
-            modificar.ShowDialog();
-            cargarArticulo();
+
+            if (dgvListarArticulos.CurrentRow != null)
+            {
+                Articulo seleccionado = (Articulo)dgvListarArticulos.CurrentRow.DataBoundItem;
+                frmAltaArticulo modificar = new frmAltaArticulo(seleccionado);
+                modificar.ShowDialog();
+                cargarArticulo();
+            }
+            else
+            {
+                MessageBox.Show("Por favor, seleccione un artículo para modificar.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         private void btnEliminar_Click(object sender, EventArgs e)
         {
-            negocio = new ArticuloNegocio();
-            Articulo seleccionado;
-
-                seleccionado = (Articulo)dgvListarArticulos.CurrentRow.DataBoundItem;
-                negocio.Eliminar(seleccionado.Id);
-                cargarArticulo();
+            try
+            {
+                if (dgvListarArticulos.CurrentRow != null)
+                {
+                    negocio = new ArticuloNegocio();
+                    Articulo seleccionado;
+                    seleccionado = (Articulo)dgvListarArticulos.CurrentRow.DataBoundItem;
+                    negocio.Eliminar(seleccionado.Id);
+                    cargarArticulo();
+                }
+                else
+                {
+                    MessageBox.Show("Por favor, seleccione un artículo para eliminar.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
        

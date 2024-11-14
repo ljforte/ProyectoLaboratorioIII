@@ -29,7 +29,7 @@ namespace LaboratorioIII_Proyecto
             btnAgregarMarca.Text = "Modificar";
             if(seleccionado != null ) 
             {
-                txtbxNombre.Text = seleccionado.Descripcion;
+                txtbxNombre.Text = seleccionado.nombre;
             }
         }
 
@@ -57,13 +57,13 @@ namespace LaboratorioIII_Proyecto
 
                 if (btnAgregarMarca.Text == "Agregar")
                 {
-                    seleccionado.Descripcion = txtbxNombre.Text;
+                    seleccionado.nombre = txtbxNombre.Text;
                     negocio.AgregarMarca(seleccionado);
                     MessageBox.Show("Marca Agregada exitosamente");
                 }
                 else if (btnAgregarMarca.Text == "Modificar")
                 {
-                    seleccionado.Descripcion = txtbxNombre.Text;
+                    seleccionado.nombre = txtbxNombre.Text;
                     negocio.Modificar(seleccionado);
                     MessageBox.Show("Marca Modificada exitosamente");
                 }
