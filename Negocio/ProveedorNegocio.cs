@@ -99,25 +99,26 @@ namespace Negocio
         }
 
 
-        public Proveedor ObtenerProveedorConMasArticulos()
+        public List<Proveedor> ObtenerProveedorConMasArticulos()
         {
-            Proveedor proveedor = null;
+
+            List<Proveedor> listaProveedores = new List<Proveedor>();
             AccesoDatos datos = new AccesoDatos();
 
             try
             {
-                datos.setearProcedimiento("sp_ProveedorConMasArticulos");
+                datos.SetearConsulta(" exec sp_ProveedorConMasArticulos");
                 datos.EjecutarLectura();
 
-                if (datos.lector.Read())
+                while (datos.lector.Read())
                 {
-                    proveedor = new Proveedor
-                    {
-                        id_proveedor = (int)datos.lector["id_proveedor"],
-                        nombre = datos.lector["Nombre"].ToString(),
-                        CantidadArticulos = (int)datos.lector["CantidadArticulos"]
-                    };
+                    Proveedor proveedor = new Proveedor(); 
+                    proveedor.id_proveedor = (int)datos.lector["id_proveedor"];
+                    proveedor.nombre = (string)datos.lector["nombre"];
+                    proveedor.CantidadArticulos = (int)datos.lector["CantidadArticulos"];
+                    listaProveedores.Add(proveedor);
                 }
+                return listaProveedores;
             }
             catch (Exception ex)
             {
@@ -128,7 +129,6 @@ namespace Negocio
                 datos.CerrarConexion();
             }
 
-            return proveedor;
         }
 
     }

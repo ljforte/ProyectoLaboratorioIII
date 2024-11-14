@@ -11,7 +11,7 @@ namespace Dominio
     {
         [DisplayName("ArticuloImagen")]
         public int Id { get; set; }
-        public string IdArticulo { get; set; }
+        public int IdArticulo { get; set; }
         public string ImagenUrl { get; set; }
         public string Desc { get; set; }
         public override string ToString()

@@ -31,33 +31,33 @@ namespace Negocio
                     Articulo aux = new Articulo();
 
                     aux.Id = (int)datos.lector["Id"];
-                    aux.Codigo = (datos.lector["Codigo"] is DBNull) ? string.Empty : (string)datos.lector["Codigo"];
-                    aux.Nombre = (datos.lector["Nombre"] is DBNull) ? string.Empty : (string)datos.lector["Nombre"];
-                    aux.Descripcion = (datos.lector["Descripcion"] is DBNull) ? string.Empty : (string)datos.lector["Descripcion"];
-                    aux.Precio = (datos.lector["Precio"] is DBNull) ? 0 : (decimal)datos.lector["Precio"];
+                    aux.Codigo = (string)datos.lector["Codigo"];
+                    aux.Nombre = (string)datos.lector["Nombre"];
+                    aux.Descripcion =  (string)datos.lector["Descripcion"];
+                    aux.Precio =  (int)datos.lector["Precio"];
+                    aux.Estado = (bool)datos.lector["Estado"];
 
                     // Asignar Marca
                     aux.MarcasCls = new Marcas();
-                    aux.MarcasCls.Descripcion = (datos.lector["Marca"] is DBNull) ? string.Empty : (string)datos.lector["Marca"];
+                    aux.MarcasCls.Descripcion = (string)datos.lector["Marca"];
 
                     // Asignar Categoria
                     aux.CategoriasCls = new Categorias();
-                    if (!(datos.lector["IdCategoria"] is DBNull))
-                        aux.CategoriasCls.Id = (int)datos.lector["IdCategoria"];
-                    aux.CategoriasCls.Descripcion = (datos.lector["Categoria"] is DBNull) ? string.Empty : (string)datos.lector["Categoria"];
+                    aux.CategoriasCls.Descripcion = (string)datos.lector["Categoria"];
 
+                    
                     // Asignar Imagen
                     aux.Imagen = new ArtImg();
-                    aux.Imagen.ImagenUrl = (datos.lector["Imagen"] is DBNull) ? string.Empty : datos.lector["Imagen"].ToString();
+                    aux.Imagen.ImagenUrl = datos.lector["Imagen"].ToString();
 
                     // Asignar Proveedor
                     aux.ProveedorCls = new Proveedor();
-                    aux.ProveedorCls.id_proveedor = (datos.lector["IdProveedor"] is DBNull) ? 0 : (int)datos.lector["IdProveedor"];
-                    aux.ProveedorCls.nombre = (datos.lector["ProveedorNombre"] is DBNull) ? "Proveedor no disponible" : (string)datos.lector["ProveedorNombre"];
+                    aux.ProveedorCls.id_proveedor = (int)datos.lector["id_proveedor"];
+                    aux.ProveedorCls.nombre = (string)datos.lector["ProveedorNombre"];
 
                     // Asignar Stock
                     aux.StockCls = new Stock();
-                    aux.StockCls.stock = (datos.lector["Stock"] is DBNull) ? 0 : (int)datos.lector["Stock"]; 
+                    aux.StockCls.stock =(int)datos.lector["Stock"]; 
 
                     // Para verificación
                     Console.WriteLine("Proveedor: " + aux.ProveedorCls.nombre);
@@ -67,9 +67,13 @@ namespace Negocio
                 }
                 return lista;
             }
+            catch (SqlException ex)
+            { 
+                throw new Exception($"Error en la base de datos: {ex.Message}", ex);
+            }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Exception($"Ocurrió un error: {ex.Message}", ex);
             }
             finally
             {

@@ -159,6 +159,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="DB\CATALOGO_DB_v3.sql" />
+    <Content Include="DB\DB.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Dominio\Dominio.csproj">

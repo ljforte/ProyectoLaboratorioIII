@@ -1,0 +1,530 @@
+﻿create database Compumundo_hipermegared
+use Compumundo_hipermegared
+
+CREATE TABLE Provincias (
+    ProvinciaID INT PRIMARY KEY,
+    Nombre NVARCHAR(50) NOT NULL
+);
+GO
+
+CREATE TABLE direccion (
+    direccionID INT PRIMARY KEY,
+    Calle NVARCHAR(50) NOT NULL,
+    Codigo_postal INT NOT NULL,
+    Ciudad NVARCHAR(50) NOT NULL,
+    ProvinciaID INT NOT NULL,
+    FOREIGN KEY (ProvinciaID) REFERENCES Provincias(ProvinciaID)
+);
+GO
+
+CREATE TABLE cliente (
+    id_cliente INT NOT NULL IDENTITY PRIMARY KEY,
+    nombre VARCHAR(30),
+    apellido VARCHAR(30),
+    DireccionID INT,
+    FOREIGN KEY (DireccionID) REFERENCES direccion(DireccionID)
+);
+GO
+
+CREATE TABLE  impuesto (
+    id_impuesto INT NOT NULL  IDENTITY PRIMARY KEY,
+    tipo CHAR(1) NOT NULL,
+    nombre VARCHAR(30) NOT NULL
+);
+GO
+
+
+CREATE TABLE  vendedor (
+    id_vendedor INT NOT NULL  IDENTITY PRIMARY KEY,
+    nombre VARCHAR(30) NOT NULL,
+    apellido VARCHAR(30) NOT NULL,
+    comision INT NOT NULL,
+    estado INT NOT NULL
+);
+GO
+
+
+CREATE TABLE  sitio (
+    id_sitio INT NOT NULL  IDENTITY PRIMARY KEY,
+    nombre VARCHAR(30) NOT NULL
+);
+GO
+
+CREATE TABLE proveedor(
+			id_proveedor INT NOT NULL IDENTITY PRIMARY KEY,
+			nombre VARCHAR(50),
+			direccionID INT NOT NULL,
+			FOREIGN KEY (direccionID) REFERENCES direccion(direccionID)
+			);
+GO
+
+CREATE TABLE  categorias(
+    idCategoria INT NOT NULL  IDENTITY PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL UNIQUE
+    );
+
+CREATE TABLE marcas(
+					idMarca INT NOT NULL IDENTITY PRIMARY KEY,
+					nombre VARCHAR(50) NOT NULL UNIQUE
+					);
+
+
+CREATE TABLE  Articulos (
+    id INT NOT NULL  IDENTITY PRIMARY KEY,
+	codigo VARCHAR(50) UNIQUE NOT NULL,
+	nombre VARCHAR(255) NOT NULL,
+	Descripcion VARCHAR(255) NOT NULL,
+    idMarca INT NOT NULL,
+    idCategoria INT NOT NULL,
+    precio INT NOT NULL,
+    id_proveedor INT DEFAULT 1 ,
+    estado BIT NOT NULL,
+    FOREIGN KEY (id_proveedor) REFERENCES proveedor (id_proveedor),
+    FOREIGN KEY (idCategoria) REFERENCES categorias (idCategoria),
+	FOREIGN KEY (idMarca) REFERENCES  marcas (idMarca)
+);
+
+
+
+
+create TABLE  factura (
+    id_factura INT NOT NULL  IDENTITY PRIMARY KEY,
+    id_impuesto INT NOT NULL,
+    id_cliente INT NOT NULL,
+    monto INT NOT NULL,
+    id_vendedor INT NOT NULL,
+    date DATE NOT NULL,
+    FOREIGN KEY (id_cliente) REFERENCES cliente (id_cliente),
+    FOREIGN KEY (id_impuesto) REFERENCES impuesto (id_impuesto),
+    FOREIGN KEY (id_vendedor) REFERENCES vendedor (id_vendedor)
+);
+GO
+
+
+create TABLE  detalle_factura (
+    id_compra INT NOT NULL  IDENTITY PRIMARY KEY,
+    id_factura INT NOT NULL,
+    id_articulo int not NULL,
+    precio_unitario int not NULL,
+    cantidad int not NULL,
+    FOREIGN KEY (id_articulo) REFERENCES ARTICULOS (id),
+    FOREIGN KEY (id_factura) REFERENCES factura (id_factura)
+);
+GO
+
+
+CREATE TABLE IMAGENES (
+    Id INT NOT NULL IDENTITY PRIMARY KEY ,
+    IdArticulo INT,
+    ImagenUrl VARCHAR(255),
+	FOREIGN KEY (IdArticulo) REFERENCES Articulos(id)
+);
+
+
+CREATE TABLE  stock (
+    id INT NOT NULL  IDENTITY PRIMARY KEY,
+	id_producto INT NOT NULL,
+    id_sitio INT NOT NULL,
+    stock INT NOT NULL,
+    FOREIGN KEY (id_sitio) REFERENCES sitio (id_sitio),
+	FOREIGN KEY (id_producto) REFERENCES Articulos(id)
+);
+GO
+
+
+
+INSERT INTO Provincias (ProvinciaID, Nombre)
+VALUES 
+(1, 'Buenos Aires'),
+(2, 'Catamarca'),
+(3, 'Chaco'),
+(4, 'Chubut'),
+(5, 'Córdoba'),
+(6, 'Corrientes'),
+(7, 'Entre Ríos'),
+(8, 'Formosa'),
+(9, 'Jujuy'),
+(10, 'La Pampa'),
+(11, 'La Rioja'),
+(12, 'Mendoza'),
+(13, 'Misiones'),
+(14, 'Neuquén'),
+(15, 'Río Negro'),
+(16, 'Salta'),
+(17, 'San Juan'),
+(18, 'San Luis'),
+(19, 'Santa Cruz'),
+(20, 'Santa Fe'),
+(21, 'Santiago del Estero'),
+(22, 'Tierra del Fuego'),
+(23, 'Tucumán');
+
+
+INSERT INTO direccion (direccionID, Calle, Codigo_postal, Ciudad, ProvinciaID) 
+VALUES 
+(1, 'Calle Ficticia 1', 10001, 'Ciudad A', 1),
+(2, 'Calle Ficticia 2', 10002, 'Ciudad B', 2),
+(3, 'Calle Ficticia 3', 10003, 'Ciudad C', 3),
+(4, 'Calle Ficticia 4', 10004, 'Ciudad D', 4),
+(5, 'Calle Ficticia 5', 10005, 'Ciudad E', 5),
+(6, 'Calle Ficticia 6', 10006, 'Ciudad F', 6),
+(7, 'Calle Ficticia 7', 10007, 'Ciudad G', 7),
+(8, 'Calle Ficticia 8', 10008, 'Ciudad H', 8),
+(9, 'Calle Ficticia 9', 10009, 'Ciudad I', 9),
+(10, 'Calle Ficticia 10', 10010, 'Ciudad J', 10),
+(11, 'Calle Ficticia 11', 10011, 'Ciudad K', 11),
+(12, 'Calle Ficticia 12', 10012, 'Ciudad L', 12),
+(13, 'Calle Ficticia 13', 10013, 'Ciudad M', 13),
+(14, 'Calle Ficticia 14', 10014, 'Ciudad N', 14),
+(15, 'Calle Ficticia 15', 10015, 'Ciudad O', 15),
+(16, 'Calle Ficticia 16', 10016, 'Ciudad P', 16),
+(17, 'Calle Ficticia 17', 10017, 'Ciudad Q', 17),
+(18, 'Calle Ficticia 18', 10018, 'Ciudad R', 18),
+(19, 'Calle Ficticia 19', 10019, 'Ciudad S', 19),
+(20, 'Calle Ficticia 20', 10020, 'Ciudad T', 20);
+
+
+
+INSERT INTO cliente (nombre, apellido, DireccionID) 
+VALUES 
+('Juan', 'Pérez', 1),
+('Ana', 'González', 2),
+('Luis', 'Martínez', 3),
+('Marta', 'Rodríguez', 4),
+('Carlos', 'López', 5),
+('Sofía', 'Hernández', 6),
+('José', 'García', 7),
+('Patricia', 'Fernández', 8),
+('Ricardo', 'González', 9),
+('Laura', 'Sánchez', 10),
+('David', 'Ramírez', 11),
+('Isabel', 'Díaz', 12),
+('Pedro', 'Torres', 13),
+('Cristina', 'Vázquez', 14),
+('Javier', 'Moreno', 15),
+('Raquel', 'Jiménez', 16),
+('Antonio', 'Martín', 17),
+('Dolores', 'Ruiz', 18),
+('Manuel', 'Alvarez', 19),
+('Carmen', 'Gómez', 20);
+
+
+
+
+INSERT INTO impuesto ( tipo, nombre)
+VALUES 
+( 'A', 'IVA 21%'),
+( 'B', 'IVA 10.5%'),
+( 'A', 'IVA Exento'),
+('C', 'Retención Ganancias');
+
+
+
+
+INSERT INTO vendedor (nombre, apellido, comision, estado)
+VALUES 
+('Fernando', 'López', 10, 1),
+('Roberto', 'García', 15, 1),
+('Elena', 'Martínez', 20, 1),
+('Carlos', 'Sánchez', 12, 1),
+('Lucía', 'Rodríguez', 18, 1);
+
+
+INSERT INTO sitio ( nombre)
+VALUES 
+( 'Deposito'),
+( 'Baul'),
+( 'Salón de Ventas'),
+( 'Cajones');
+
+
+INSERT INTO factura (id_impuesto, id_cliente, monto, id_vendedor, date)
+VALUES 
+(1, 1, 500, 1, '2024-11-10'),
+(2, 2, 1500, 2, '2024-11-09'),
+(3, 3, 300, 3, '2024-11-08'),
+(4, 4, 1200, 4, '2024-11-07'),
+(2, 5, 2000, 5, '2024-11-06');
+
+INSERT INTO proveedor (nombre, direccionID) VALUES
+	('Sin Proveedor asignado', 1),
+    ('TechWorld Hardware', 1),
+    ('CompuPro', 2),
+    ('RedTech Solutions', 3),
+    ('HardDrive Inc.', 4),
+    ('Digital Systems', 5),
+    ('ByteCraft Electronics', 6),
+    ('PowerTech Components', 7),
+    ('CircuitLab Supplies', 8),
+    ('GigaGear Systems', 9),
+    ('PixelCore Technologies', 10);
+GO
+
+INSERT INTO MARCAS (nombre) VALUES
+    ('Logitech'),
+    ('Razer'),
+    ('Corsair'),
+    ('HP'),
+    ('MSI'),
+    ('Acer'),
+    ('Gigabyte'),
+    ('Asus'),
+    ('Kingston'),
+    ('Seagate');
+GO
+
+INSERT INTO Categorias (nombre) VALUES
+    ('Placas Base'),
+    ('Tarjetas Gráficas'),
+    ('Memoria RAM'),
+    ('Discos Duros'),
+    ('Periféricos'),
+    ('Teclados'),
+    ('Monitores'),
+    ('Sistemas de Refrigeración'),
+    ('Fuentes de Alimentación'),
+    ('Componentes de Red');
+GO
+
+INSERT INTO Articulos (Codigo, Nombre, Descripcion, IdMarca, IdCategoria, Precio, id_proveedor, estado) VALUES
+    ('A001', 'Placa Base ASUS Z490', 'Placa base para procesadores Intel de décima generación', 1, 1, 150.00, 1, 1),
+    ('A002', 'Placa Base MSI B450', 'Placa base para procesadores AMD Ryzen', 2, 1, 120.00, 2, 1),
+    ('A003', 'Tarjeta Gráfica Nvidia RTX 3080', 'Tarjeta gráfica de alto rendimiento para juegos', 3, 2, 700.00, 3, 1),
+    ('A004', 'Tarjeta Gráfica AMD Radeon RX 6800', 'Tarjeta gráfica para gaming y tareas gráficas exigentes', 4, 2, 650.00, 4, 1),
+    ('A005', 'Memoria RAM Corsair Vengeance 16GB', 'Memoria RAM DDR4 16GB, 3200MHz', 5, 3, 80.00, 5, 1),
+    ('A006', 'Memoria RAM G.SKILL Ripjaws 32GB', 'Memoria RAM DDR4 32GB, 3600MHz', 6, 3, 150.00, 6, 1),
+    ('A007', 'Disco Duro Seagate 1TB', 'Disco duro HDD de 1TB para almacenamiento masivo', 7, 4, 50.00, 7, 1),
+    ('A008', 'Disco Duro Western Digital 2TB', 'Disco duro externo de 2TB', 8, 4, 90.00, 8, 1),
+    ('A009', 'Teclado Logitech G Pro X', 'Teclado mecánico para gamers con switches intercambiables', 9, 5, 100.00, 9, 1),
+    ('A010', 'Teclado Razer Huntsman', 'Teclado mecánico óptico para gamers', 10, 5, 120.00, 10, 1),
+    ('A011', 'Monitor Dell UltraSharp 27"', 'Monitor 4K de 27 pulgadas para diseño gráfico y productividad', 1, 7, 350.00, 1, 1),
+    ('A012', 'Monitor Acer Predator X34', 'Monitor ultrapanorámico para juegos, 34" 144Hz', 2, 7, 800.00, 2, 1),
+    ('A013', 'Sistema de Refrigeración NZXT Kraken Z73', 'Sistema de refrigeración líquida AIO para CPUs', 3, 8, 200.00, 3, 1),
+    ('A014', 'Sistema de Refrigeración Corsair iCUE H150i', 'Sistema de refrigeración líquida para alto rendimiento', 4, 8, 170.00, 4, 1),
+    ('A015', 'Fuente de Alimentación EVGA SuperNOVA 650 G5', 'Fuente de alimentación de 650W, eficiencia 80 Plus Gold', 5, 9, 90.00, 5, 1),
+    ('A016', 'Fuente de Alimentación Corsair RM850x', 'Fuente de alimentación de 850W, 80 Plus Gold', 6, 9, 130.00, 6, 1),
+    ('A017', 'Router TP-Link Archer AX6000', 'Router Wi-Fi 6 con velocidad de 6 Gbps', 7, 10, 250.00, 7, 1),
+    ('A018', 'Router Asus RT-AC88U', 'Router Wi-Fi AC3100 con 8 puertos Gigabit', 8, 10, 180.00, 8, 1),
+    ('A019', 'Placa Base ASUS ROG Crosshair VIII Hero', 'Placa base para AMD Ryzen con soporte para overclocking', 1, 1, 300.00, 1, 1),
+    ('A020', 'Placa Base Gigabyte Z590 AORUS', 'Placa base para Intel de 11ª generación', 2, 1, 250.00, 2, 1),
+    ('A021', 'Disco Duro Kingston A2000 500GB', 'Disco SSD NVMe de 500GB', 3, 4, 60.00, 3, 1),
+    ('A022', 'Disco SSD Samsung 970 Evo 1TB', 'Disco SSD NVMe de 1TB', 4, 4, 150.00, 4, 1),
+    ('A023', 'Tarjeta Gráfica MSI GeForce GTX 1650', 'Tarjeta gráfica para juegos de nivel medio', 5, 2, 180.00, 5, 1),
+    ('A024', 'Tarjeta Gráfica Zotac GTX 1660 Super', 'Tarjeta gráfica para gaming de nivel medio', 6, 2, 200.00, 6, 1),
+    ('A025', 'Memoria RAM HyperX Fury 8GB', 'Memoria RAM DDR4 de 8GB, 3200MHz', 7, 3, 40.00, 7, 1),
+    ('A026', 'Memoria RAM TeamGroup T-Force 16GB', 'Memoria RAM DDR4 16GB, 3600MHz', 8, 3, 75.00, 8, 1),
+    ('A027', 'Teclado Cooler Master MK730', 'Teclado mecánico con switches Cherry MX', 9, 5, 90.00, 9, 1),
+    ('A028', 'Teclado SteelSeries Apex Pro', 'Teclado mecánico con ajustes de actuation', 10, 5, 160.00, 10, 1),
+    ('A029', 'Monitor Samsung Odyssey G7', 'Monitor curvado 240Hz para gaming', 1, 7, 600.00, 1, 1),
+    ('A030', 'Monitor LG UltraGear 27GN950', 'Monitor 4K de 27 pulgadas, 144Hz', 2, 7, 700.00, 2, 1);
+GO
+
+INSERT INTO stock (id_producto, id_sitio, stock)
+VALUES 
+(1, 1, 100),
+(1,2,50),
+(1, 1, 50),
+(2, 3, 75),
+(3, 4, 120),
+(3,2,50),
+(4, 1, 30),
+(5, 2, 60),
+(6, 3, 150),
+(7, 4, 200),
+(8, 1, 80),
+(9, 2, 110),
+(10, 3, 90),
+(11, 4, 30),
+(12, 1, 200),
+(13, 2, 150),
+(14, 3, 180),
+(15, 4, 75),
+(16, 1, 100),
+(17, 2, 50),
+(18, 3, 120),
+(19, 4, 140),
+(20, 1, 110),
+(21, 2, 80),
+(22, 3, 90),
+(23, 4, 130),
+(24, 1, 75),
+(25, 2, 120),
+(26, 3, 80),
+(27, 4, 100),
+(28, 1, 90),
+(29, 2, 140);
+GO
+
+
+
+INSERT INTO detalle_factura (id_factura, id_articulo, precio_unitario, cantidad)
+VALUES 
+(1, 11, 100, 5),
+(1, 12, 50, 4),
+(2, 13, 150, 3),
+(2, 14, 200, 2),
+(3, 15, 75, 4),
+(4, 16, 250, 2),
+(4, 17, 300, 1),
+(5, 18, 400, 5);
+
+
+
+
+
+
+
+
+
+select * from ListarArticulos
+
+DROP VIEW ListarArticulos	
+
+
+CREATE VIEW ListarArticulos AS
+                            SELECT 
+            A.Id,
+            A.Codigo, 
+            A.Nombre, 
+            A.Descripcion, 
+            M.nombre AS Marca, 
+            C.nombre AS Categoria, 
+            A.Precio,
+            M.IdMarca as IdMarca,
+            C.IdCategoria as IdCategoria,
+            I.ImagenUrl as Imagen,
+			A.Estado as Estado,
+            P.Nombre AS ProveedorNombre,
+			P.id_proveedor AS id_proveedor,
+			s.stock as Stock
+        FROM ARTICULOS AS A 
+        LEFT JOIN Marcas AS M ON A.IdMarca = M.IdMarca 
+        LEFT JOIN Categorias AS C ON A.IdCategoria = C.IdCategoria
+        LEFT JOIN IMAGENES AS I ON I.IdArticulo = A.Id
+        LEFT JOIN Proveedor AS P ON A.id_proveedor = P.id_proveedor
+		LEFT JOIN Stock as S ON A.id = S.id
+
+///PROCEDURE
+
+CREATE PROCEDURE spFiltrarArticulos
+    @Campo NVARCHAR(50),
+    @Criterio NVARCHAR(50),
+    @Filtro NVARCHAR(255)
+AS
+BEGIN
+    DECLARE @Consulta NVARCHAR(MAX);
+
+    SET @Consulta = '
+        ListarArticulos';
+
+    IF @Campo = 'Codigo'
+        SET @Consulta += CASE 
+            WHEN @Criterio = 'Comienza con' THEN 'A.Codigo LIKE ''' + @Filtro + '%'''
+            WHEN @Criterio = 'Termina con' THEN 'A.Codigo LIKE ''%' + @Filtro + ''''
+            ELSE 'A.Codigo LIKE ''%' + @Filtro + '%'''
+        END;
+    ELSE IF @Campo = 'Nombre'
+        SET @Consulta += CASE 
+            WHEN @Criterio = 'Comienza con' THEN 'A.Nombre LIKE ''' + @Filtro + '%'''
+            WHEN @Criterio = 'Termina con' THEN 'A.Nombre LIKE ''%' + @Filtro + ''''
+            ELSE 'A.Nombre LIKE ''%' + @Filtro + '%'''
+        END;
+    ELSE IF @Campo = 'Marca'
+        SET @Consulta += CASE 
+            WHEN @Criterio = 'Comienza con' THEN 'M.Descripcion LIKE ''' + @Filtro + '%'''
+            WHEN @Criterio = 'Termina con' THEN 'M.Descripcion LIKE ''%' + @Filtro + ''''
+            ELSE 'M.Descripcion LIKE ''%' + @Filtro + '%'''
+        END;
+    ELSE IF @Campo = 'Categoria'
+        SET @Consulta += CASE 
+            WHEN @Criterio = 'Comienza con' THEN 'C.Descripcion LIKE ''' + @Filtro + '%'''
+            WHEN @Criterio = 'Termina con' THEN 'C.Descripcion LIKE ''%' + @Filtro + ''''
+            ELSE 'C.Descripcion LIKE ''%' + @Filtro + '%'''
+        END;
+    ELSE IF @Campo = 'Precio'
+        SET @Consulta += CASE 
+            WHEN @Criterio = 'Mayor a' THEN 'A.Precio > ' + @Filtro
+            WHEN @Criterio = 'Menor a' THEN 'A.Precio < ' + @Filtro
+            ELSE 'A.Precio = ' + @Filtro
+        END;
+
+    EXEC sp_executesql @Consulta;
+END;
+
+
+
+CREATE PROCEDURE sp_BajaLogicaProducto
+    @Id INT
+AS
+BEGIN
+    UPDATE Articulos
+    SET estado = 0
+    WHERE Id = @Id;
+END
+
+
+DROP TRIGGER trg_EliminarArticulo
+
+
+CREATE TRIGGER trg_EliminarArticulo
+ON ARTICULOS
+FOR DELETE
+AS
+BEGIN
+    DECLARE @Stock INT;
+    DECLARE @Id INT;
+
+    SELECT @Id = id FROM DELETED;
+
+    SELECT @Stock = stock FROM stock WHERE id = @Id;
+
+    IF (@Stock > 0)
+    BEGIN
+
+        RAISERROR('No se puede eliminar el producto porque tiene stock disponible.', 16, 1);
+        ROLLBACK;  
+    END
+    ELSE IF (@Stock = 0)
+    BEGIN
+        -- Si el stock es 0, eliminamos el registro en la tabla stock
+        DELETE FROM stock WHERE id = @Id;
+    END
+END;
+
+// funcion que calcula el proveedor con mas articulos en la tienda
+EXEC sp_ProveedorConMasArticulos
+drop procedure sp_ProveedorConMasArticulos
+
+
+CREATE PROCEDURE sp_ProveedorConMasArticulos
+AS
+BEGIN
+    -- Obtener la cantidad máxima de artículos para un proveedor
+    DECLARE @MaxCantidad INT;
+    SELECT @MaxCantidad = MAX(CantidadArticulos)
+    FROM (
+        SELECT COUNT(A.Id) AS CantidadArticulos
+        FROM proveedor AS P
+        JOIN Articulos AS A ON P.id_proveedor = A.id_proveedor
+        GROUP BY P.id_proveedor
+    ) AS Subconsulta;
+
+    -- Seleccionar todos los proveedores con la cantidad máxima de artículos
+    SELECT 
+        P.id_proveedor,
+        P.nombre,
+        COUNT(A.Id) AS CantidadArticulos
+    FROM 
+        proveedor AS P
+    JOIN 
+        Articulos AS A ON P.id_proveedor = A.id_proveedor
+    GROUP BY 
+        P.id_proveedor, P.nombre
+    HAVING 
+        COUNT(A.Id) = @MaxCantidad
+    ORDER BY 
+        CantidadArticulos DESC;
+END;
+
+
+

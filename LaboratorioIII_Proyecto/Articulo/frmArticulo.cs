@@ -16,6 +16,7 @@ namespace LaboratorioIII_Proyecto
     {
         private List<Articulo> ListaArticulos;
         private ArticuloNegocio negocio;
+        private string proveedores;
         public frmArticulo()
         {
             InitializeComponent();
@@ -49,9 +50,14 @@ namespace LaboratorioIII_Proyecto
                 ListaArticulos = negocio.ListarArticulos();
                 dgvListarArticulos.DataSource = ListaArticulos;
                 //picbxArticulo.Load(ListaArticulos[0].Imagen.ImagenUrl);
-                cargarImagen(ListaArticulos[0].Imagen.ImagenUrl); 
+                cargarImagen(ListaArticulos[0].Imagen.ImagenUrl);
                 //dgvListarArticulos.Columns["ImagenUrl"].Visible = false;
-                //dgvListarArticulos.Columns["Id"].Visible = false;
+                if (dgvListarArticulos.Columns["ProveedorNombre"] != null)
+                {
+                    dgvListarArticulos.Columns["ProveedorNombre"].Visible = false;
+                }
+                dgvListarArticulos.Columns["Id"].Visible = false;
+                dgvListarArticulos.Columns["idProveedor"].Visible = false;
             }
             catch (Exception ex)
             {
@@ -231,11 +237,32 @@ namespace LaboratorioIII_Proyecto
         private void btnProveedor_Click(object sender, EventArgs e)
         {
             ProveedorNegocio prov = new ProveedorNegocio();
-            Proveedor proveedor = new Proveedor();
+            List<Proveedor> proveedor = new List<Proveedor>();
+            
             try
             {
                 proveedor = prov.ObtenerProveedorConMasArticulos();
-                MessageBox.Show("Proveedor con mas articulos : " + proveedor.nombre + "con " + proveedor.CantidadArticulos + " items.");
+
+                if (proveedor.Count == 0)
+                {
+                    MessageBox.Show("No se encontró ningún proveedor.");
+                    return;
+                }
+
+                if (proveedor.Count > 1)
+                {
+                    proveedores += "Se encontraron " + proveedor.Count() + " proveedores: \n";
+                    
+                    for (int x = 0; x < proveedor.Count(); x++)
+                    {
+                        proveedores += "Proveedor: " + proveedor[x].nombre + "con " + proveedor[x].CantidadArticulos + " items.\n";
+                    }
+                }
+                else
+                {
+                    proveedores +="Proovedor " + proveedor[0].nombre + "con " + proveedor[0].CantidadArticulos + " items. ";
+                }
+                MessageBox.Show(proveedores);
             }
             catch(Exception ex)
             {
