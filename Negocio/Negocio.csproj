@@ -58,5 +58,10 @@
       <Name>Dominio</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="SCRTPT_FB\Compumundo_hipermegared.sql" />
+    <Content Include="SCRTPT_FB\Procedures.sql" />
+    <Content Include="SCRTPT_FB\Registros.sql" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

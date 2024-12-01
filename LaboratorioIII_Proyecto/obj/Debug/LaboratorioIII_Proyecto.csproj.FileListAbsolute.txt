@@ -44,3 +44,26 @@ C:\Users\Lionel Messi\Source\Repos\ProyectoLaboratorioIII\LaboratorioIII_Proyect
 C:\Users\Lionel Messi\Source\Repos\ProyectoLaboratorioIII\LaboratorioIII_Proyecto\obj\Debug\Laborato.4AB3863C.Up2Date
 C:\Users\Lionel Messi\Source\Repos\ProyectoLaboratorioIII\LaboratorioIII_Proyecto\obj\Debug\LaboratorioIII_Proyecto.exe
 C:\Users\Lionel Messi\Source\Repos\ProyectoLaboratorioIII\LaboratorioIII_Proyecto\obj\Debug\LaboratorioIII_Proyecto.pdb
+C:\Users\Ezequiel\Source\Repos\ProyectoLaboratorioIII\LaboratorioIII_Proyecto\bin\Debug\LaboratorioIII_Proyecto.exe.config
+C:\Users\Ezequiel\Source\Repos\ProyectoLaboratorioIII\LaboratorioIII_Proyecto\bin\Debug\LaboratorioIII_Proyecto.exe
+C:\Users\Ezequiel\Source\Repos\ProyectoLaboratorioIII\LaboratorioIII_Proyecto\bin\Debug\LaboratorioIII_Proyecto.pdb
+C:\Users\Ezequiel\Source\Repos\ProyectoLaboratorioIII\LaboratorioIII_Proyecto\bin\Debug\Dominio.dll
+C:\Users\Ezequiel\Source\Repos\ProyectoLaboratorioIII\LaboratorioIII_Proyecto\bin\Debug\Negocio.dll
+C:\Users\Ezequiel\Source\Repos\ProyectoLaboratorioIII\LaboratorioIII_Proyecto\bin\Debug\Dominio.pdb
+C:\Users\Ezequiel\Source\Repos\ProyectoLaboratorioIII\LaboratorioIII_Proyecto\bin\Debug\Negocio.pdb
+C:\Users\Ezequiel\Source\Repos\ProyectoLaboratorioIII\LaboratorioIII_Proyecto\obj\Debug\LaboratorioIII_Proyecto.csproj.AssemblyReference.cache
+C:\Users\Ezequiel\Source\Repos\ProyectoLaboratorioIII\LaboratorioIII_Proyecto\obj\Debug\LaboratorioIII_Proyecto.AltaImagen.resources
+C:\Users\Ezequiel\Source\Repos\ProyectoLaboratorioIII\LaboratorioIII_Proyecto\obj\Debug\LaboratorioIII_Proyecto.frmAltaArticulo.resources
+C:\Users\Ezequiel\Source\Repos\ProyectoLaboratorioIII\LaboratorioIII_Proyecto\obj\Debug\LaboratorioIII_Proyecto.frmArticulo.resources
+C:\Users\Ezequiel\Source\Repos\ProyectoLaboratorioIII\LaboratorioIII_Proyecto\obj\Debug\LaboratorioIII_Proyecto.frmAltaCategoria.resources
+C:\Users\Ezequiel\Source\Repos\ProyectoLaboratorioIII\LaboratorioIII_Proyecto\obj\Debug\LaboratorioIII_Proyecto.frmCategoria.resources
+C:\Users\Ezequiel\Source\Repos\ProyectoLaboratorioIII\LaboratorioIII_Proyecto\obj\Debug\LaboratorioIII_Proyecto.frmMainMenu.resources
+C:\Users\Ezequiel\Source\Repos\ProyectoLaboratorioIII\LaboratorioIII_Proyecto\obj\Debug\LaboratorioIII_Proyecto.ListarImg.resources
+C:\Users\Ezequiel\Source\Repos\ProyectoLaboratorioIII\LaboratorioIII_Proyecto\obj\Debug\LaboratorioIII_Proyecto.frmAltaMarca.resources
+C:\Users\Ezequiel\Source\Repos\ProyectoLaboratorioIII\LaboratorioIII_Proyecto\obj\Debug\LaboratorioIII_Proyecto.frmMarcas.resources
+C:\Users\Ezequiel\Source\Repos\ProyectoLaboratorioIII\LaboratorioIII_Proyecto\obj\Debug\LaboratorioIII_Proyecto.Properties.Resources.resources
+C:\Users\Ezequiel\Source\Repos\ProyectoLaboratorioIII\LaboratorioIII_Proyecto\obj\Debug\LaboratorioIII_Proyecto.csproj.GenerateResource.cache
+C:\Users\Ezequiel\Source\Repos\ProyectoLaboratorioIII\LaboratorioIII_Proyecto\obj\Debug\LaboratorioIII_Proyecto.csproj.CoreCompileInputs.cache
+C:\Users\Ezequiel\Source\Repos\ProyectoLaboratorioIII\LaboratorioIII_Proyecto\obj\Debug\Laborato.4AB3863C.Up2Date
+C:\Users\Ezequiel\Source\Repos\ProyectoLaboratorioIII\LaboratorioIII_Proyecto\obj\Debug\LaboratorioIII_Proyecto.exe
+C:\Users\Ezequiel\Source\Repos\ProyectoLaboratorioIII\LaboratorioIII_Proyecto\obj\Debug\LaboratorioIII_Proyecto.pdb
