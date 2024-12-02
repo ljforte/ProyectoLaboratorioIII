@@ -58,15 +58,12 @@ namespace Negocio
         public void Modificar(Stock stock)
         {
             AccesoDatos datos = new AccesoDatos();
-
             try
             {
-                // Consulta para actualizar el stock en la base de datos
-                datos.SetearConsulta("UPDATE STOCK SET id_producto = @id_producto, id_sitio = @id_sitio, stock = @stock WHERE id = @id");
+                datos.SetearConsulta("UPDATE STOCK SET stock = @stock WHERE id_producto = @id_producto AND id_sitio = @id_sitio");
                 datos.setearParametro("@id_producto", stock.id_producto);
-                datos.setearParametro("@id_sitio", stock.sitio.Id_Sitio);
+                datos.setearParametro("@id_sitio", stock.sitio.Id_Sitio); 
                 datos.setearParametro("@stock", stock.stock);
-                datos.setearParametro("@id", stock.id);
                 datos.EjecutarAccion();
             }
             catch (Exception ex)

@@ -51,10 +51,15 @@ namespace LaboratorioIII_Proyecto
             //Agregar Arituclo
             try
             {
+<<<<<<< HEAD
+=======
+
+>>>>>>> Correciones varias, se agrega transacciones y sps
                 if (this.articulo ==null)
                 {
                     this.articulo = new Articulo();
                 }
+<<<<<<< HEAD
                 img.ImagenUrl = txtbUrlImagen.Text;
                 this.articulo.Nombre = txtbNombre.Text;
                 this.articulo.Codigo = txtbCodAr.Text;
@@ -81,6 +86,25 @@ namespace LaboratorioIII_Proyecto
                 {
                     negocio.Agregar(this.articulo, img, stock);
                    // stockNeg.Agregar(stock);
+=======
+
+                    this.articulo.Nombre = txtbNombre.Text;
+                    this.articulo.Codigo = txtbCodAr.Text;
+                    this.articulo.Descripcion = txtbDescAr.Text;
+                    this.articulo.MarcasCls = (Marcas)cbxMarca.SelectedItem;
+                    this.articulo.CategoriasCls = (Categorias)cbxCat.SelectedItem;
+                    this.articulo.Precio = decimal.Parse(txtbPrecio.Text);
+                    this.articulo.Imagen = new ArtImg();
+                    st.sitio = (Sitio)cbxSitio.SelectedItem;
+                    st.stock = int.Parse(txtStock.Text);
+                    st.id_producto = articulo.Id;
+                    this.articulo.Estado = checkBoxEstado.Checked;
+                    img.ImagenUrl = txtbUrlImagen.Text;
+
+                if (btnAgregar.Text == "Agregar")
+                {
+                    negocio.Agregar(this.articulo, img, st);
+>>>>>>> Correciones varias, se agrega transacciones y sps
                     MessageBox.Show("Articulo agregado correctamente.");
                 }
                 else if (btnAgregar.Text == "Modificar")
@@ -90,12 +114,21 @@ namespace LaboratorioIII_Proyecto
                 
 
 
+<<<<<<< HEAD
 
                 Close();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
+=======
+                    Close();
+                }
+                catch (Exception ex)
+                {
+                MessageBox.Show("Ocurrió un error: " + ex.Message);
+            }
+>>>>>>> Correciones varias, se agrega transacciones y sps
             }
         }
 

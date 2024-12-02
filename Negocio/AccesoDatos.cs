@@ -60,12 +60,14 @@ namespace Negocio
                 conexion.Open();
                 comando.ExecuteNonQuery();
             }
-            catch(Exception ex) 
+            catch (Exception ex)
             {
                 throw ex;
             }
 
         }
+
+
 
         public void setearParametro(string nombre, object valor)
         {
@@ -77,6 +79,26 @@ namespace Negocio
             comando.CommandType = System.Data.CommandType.StoredProcedure;
             comando.CommandText = sp;
 
+        }
+        public object EjecutarEscalar()
+        {
+            comando.Connection = conexion;
+            try
+            {
+                conexion.Open();
+                return comando.ExecuteScalar();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (conexion.State == System.Data.ConnectionState.Open)
+                {
+                    conexion.Close();
+                }
+            }
         }
 
     }

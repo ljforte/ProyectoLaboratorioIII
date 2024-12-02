@@ -74,8 +74,16 @@ namespace LaboratorioIII_Proyecto
         {
             try
             {
-                Articulo Seleccionado = (Articulo)dgvListarArticulos.CurrentRow.DataBoundItem;
-                picbxArticulo.Load(Seleccionado.Imagen.ImagenUrl);
+                
+                if (dgvListarArticulos.CurrentRow != null)
+                {
+                    Articulo Seleccionado = (Articulo)dgvListarArticulos.CurrentRow.DataBoundItem;
+                    picbxArticulo.Load(Seleccionado.Imagen.ImagenUrl);
+                }
+                else
+                {
+                    picbxArticulo.Load("https://www.campana.gob.ar/wp-content/uploads/2022/05/placeholder.png");
+                }
             }
             catch (Exception)
             {

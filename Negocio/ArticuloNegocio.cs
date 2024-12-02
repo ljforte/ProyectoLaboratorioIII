@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Data.SqlClient;
 using Dominio;
 using static System.Net.Mime.MediaTypeNames;
+using System.Data;
 
 
 
@@ -56,7 +57,6 @@ namespace Negocio
                     aux.ProveedorCls.id_proveedor = (int)datos.lector["id_proveedor"];
                     aux.ProveedorCls.nombre = (string)datos.lector["ProveedorNombre"];
 
-
                     // Para verificación
                     Console.WriteLine("Proveedor: " + aux.ProveedorCls.nombre);
 
@@ -89,20 +89,28 @@ namespace Negocio
 
             try
             {
+                datos.comando.Parameters.Clear();
 
-                datos.SetearConsulta("INSERT INTO IMAGENES (IdArticulo, ImagenUrl) VALUES (@IdArticulo, @Url)");
-
-                datos.setearParametro("@IdArticulo", ConsultarId(art));
+                // Verificar si la imagen ya existe
+                datos.SetearConsulta("SELECT COUNT(*) FROM IMAGENES WHERE IdArticulo = @IdArticulo AND ImagenUrl = @Url");
+                datos.setearParametro("@IdArticulo", ConsultarId(art)); 
                 datos.setearParametro("@Url", Imagen.ImagenUrl);
-                datos.EjecutarAccion();
-                    
+
+                
+                if ((int)datos.EjecutarEscalar() == 0)
+                {
+                    datos.comando.Parameters.Clear();
+
+                    datos.SetearConsulta("INSERT INTO IMAGENES (IdArticulo, ImagenUrl) VALUES (@IdArticulo, @Url)");
+                    datos.setearParametro("@IdArticulo", ConsultarId(art)); 
+                    datos.setearParametro("@Url", Imagen.ImagenUrl);
+                    datos.EjecutarAccion();
+                }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                throw new Exception("Error al agregar imagen.", ex);
             }
-
         }
 
         public int ConsultarId(Articulo art)
@@ -127,17 +135,19 @@ namespace Negocio
         public void Agregar(Articulo art, ArtImg img, Stock st)
         {
             AccesoDatos datos = new AccesoDatos();
-            AccesoDatos datosImagen = new AccesoDatos();
-            AccesoDatos datos2 = new AccesoDatos();
             StockNegocio stNeg = new StockNegocio();
             try
             {
+<<<<<<< HEAD
 
                 datos.SetearConsulta(@"INSERT INTO ARTICULOS (Codigo, Nombre, Descripcion, Precio, idMarca, idCategoria, estado)
 
                                      VALUES (@Codigo, @Nombre, @Descripcion, @Precio, @IdMarca, @IdCategoria, @Estado); "
                                      );
                 // Tabla articulos
+=======
+                datos.setearProcedimiento("InsertarArticulo");
+>>>>>>> Correciones varias, se agrega transacciones y sps
                 datos.setearParametro("@Codigo", art.Codigo);
                 datos.setearParametro("@Nombre", art.Nombre);
                 datos.setearParametro("@Descripcion", art.Descripcion);
@@ -146,26 +156,44 @@ namespace Negocio
                 datos.setearParametro("@IdCategoria", art.CategoriasCls.Id);
                 datos.setearParametro("@Estado", art.Estado);
 
-                //Tabla imagenes, insertados en 2do insert
+                //  para obtener el ID del artículo
+                SqlParameter parametroIdArticulo = new SqlParameter("@ArticuloId", SqlDbType.Int);
+                parametroIdArticulo.Direction = ParameterDirection.Output;
+                datos.comando.Parameters.Add(parametroIdArticulo);
                 datos.EjecutarAccion();
+                
+                int articuloId = (int)parametroIdArticulo.Value;
+
+                img.IdArticulo = articuloId;
+                st.id_producto = articuloId;
+
                 AgregarImagen(img, art);
 
+                // Agregar el stock
                 try
                 {
                     stNeg.Agregar(st);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
+<<<<<<< HEAD
                     throw new Exception("Error al agregar el stock: " + ex.Message);
                 }
                 finally
                 {
                     datos2.CerrarConexion();
+=======
+                    throw new Exception("Error al agregar el stock", ex);
+>>>>>>> Correciones varias, se agrega transacciones y sps
                 }
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
+<<<<<<< HEAD
                 throw new Exception("Error al agregar el artículo: " + ex.Message);
+=======
+                throw new Exception("Error al agregar el artículo", ex);
+>>>>>>> Correciones varias, se agrega transacciones y sps
             }
             finally
             {
@@ -173,23 +201,21 @@ namespace Negocio
             }
         }
 
+
         public void Eliminar(int Id)
         {
-
             try
             {
-
                 AccesoDatos datos = new AccesoDatos();
-                datos.SetearConsulta("DELETE FROM ARTICULOS WHERE id = @Id");
-                datos.setearParametro("@Id", Id);
-                datos.EjecutarAccion();  // Si el trigger funciona la ejecucion se detiene
+                datos.SetearConsulta("EXEC EliminarProducto @Id");
+                datos.setearParametro("@Id", Id);  
+                datos.EjecutarAccion();  
 
             }
             catch (Exception ex)
             {
-                throw new Exception("Ocurrió un error: " + ex.Message);
+                throw new Exception("Ocurrió un error eliminando el articulo: " + ex.Message);
             }
-
         }
 
         public void Modificar(Articulo articulo, ArtImg img, Stock st)
@@ -197,10 +223,13 @@ namespace Negocio
             AccesoDatos Datos = new AccesoDatos();
             StockNegocio stNeg = new StockNegocio();
             try
-            {
+            {                
+                Datos.comando.Parameters.Clear();
 
-                Datos.SetearConsulta("update ARTICULOS set Codigo = @codigo, Nombre = @nombre, Descripcion = @descripcion, " +
-                                    "IdMarca = @IdMarca, IdCategoria = @IdCategoria,  Precio = @precio  Where Id = @id");
+                
+                Datos.SetearConsulta("UPDATE ARTICULOS SET Codigo = @codigo, Nombre = @nombre, Descripcion = @descripcion, " +
+                                      "IdMarca = @IdMarca, IdCategoria = @IdCategoria, Precio = @precio WHERE Id = @id");
+
                 Datos.setearParametro("@codigo", articulo.Codigo);
                 Datos.setearParametro("@nombre", articulo.Nombre);
                 Datos.setearParametro("@descripcion", articulo.Descripcion);
@@ -208,23 +237,16 @@ namespace Negocio
                 Datos.setearParametro("@IdCategoria", articulo.CategoriasCls.Id);
                 Datos.setearParametro("@precio", articulo.Precio);
                 Datos.setearParametro("@id", articulo.Id);
+
                 Datos.EjecutarAccion();
 
-                AgregarImagen(img, articulo);
-
-                    if (stNeg.ExisteRelacionStock(st))
-                    {
-                        stNeg.Modificar(st);
-                    }
-                    else
-                    {
-                        stNeg.Modificar(st);
-                    }
+                AgregarImagen(img, articulo);                
+                stNeg.Modificar(st);
 
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Exception("Error al modificar artículo.", ex);
             }
             finally
             {

@@ -528,3 +528,338 @@ END;
 
 
 
+// 2 12 24
+
+// Procedure para usar los filtros de frmArticulo
+// aplicado en articulonegocio 
+
+CREATE PROCEDURE spFiltrarArticulos
+    @Campo NVARCHAR(50),
+    @Criterio NVARCHAR(50),
+    @Filtro NVARCHAR(255)
+AS
+BEGIN
+    DECLARE @Consulta NVARCHAR(MAX);
+
+    SET @Consulta = '
+        SELECT
+            A.Id,
+            A.Codigo, 
+            A.Nombre, 
+            A.Descripcion, 
+            M.Descripcion AS MarcaDescripcion, 
+            C.Descripcion AS CategoriaDescripcion, 
+            A.Precio,
+            M.Id AS IdMarca,
+            C.Id AS IdCategoria,
+            I.ImagenUrl AS Imagen
+        FROM ARTICULOS AS A
+        LEFT JOIN Marcas AS M ON A.IdMarca = M.Id
+        LEFT JOIN Categorias AS C ON A.IdCategoria = C.Id
+        LEFT JOIN IMAGENES AS I ON I.IdArticulo = A.Id
+        WHERE ';
+
+    IF @Campo = 'Codigo'
+        SET @Consulta += CASE 
+            WHEN @Criterio = 'Comienza con' THEN 'A.Codigo LIKE ''' + @Filtro + '%'''
+            WHEN @Criterio = 'Termina con' THEN 'A.Codigo LIKE ''%' + @Filtro + ''''
+            ELSE 'A.Codigo LIKE ''%' + @Filtro + '%'''
+        END;
+    ELSE IF @Campo = 'Nombre'
+        SET @Consulta += CASE 
+            WHEN @Criterio = 'Comienza con' THEN 'A.Nombre LIKE ''' + @Filtro + '%'''
+            WHEN @Criterio = 'Termina con' THEN 'A.Nombre LIKE ''%' + @Filtro + ''''
+            ELSE 'A.Nombre LIKE ''%' + @Filtro + '%'''
+        END;
+    ELSE IF @Campo = 'Marca'
+        SET @Consulta += CASE 
+            WHEN @Criterio = 'Comienza con' THEN 'M.Descripcion LIKE ''' + @Filtro + '%'''
+            WHEN @Criterio = 'Termina con' THEN 'M.Descripcion LIKE ''%' + @Filtro + ''''
+            ELSE 'M.Descripcion LIKE ''%' + @Filtro + '%'''
+        END;
+    ELSE IF @Campo = 'Categoria'
+        SET @Consulta += CASE 
+            WHEN @Criterio = 'Comienza con' THEN 'C.Descripcion LIKE ''' + @Filtro + '%'''
+            WHEN @Criterio = 'Termina con' THEN 'C.Descripcion LIKE ''%' + @Filtro + ''''
+            ELSE 'C.Descripcion LIKE ''%' + @Filtro + '%'''
+        END;
+    ELSE IF @Campo = 'Precio'
+        SET @Consulta += CASE 
+            WHEN @Criterio = 'Mayor a' THEN 'A.Precio > ' + @Filtro
+            WHEN @Criterio = 'Menor a' THEN 'A.Precio < ' + @Filtro
+            ELSE 'A.Precio = ' + @Filtro
+        END;
+
+    EXEC sp_executesql @Consulta;
+END;
+
+
+// Trigger para no poder eliminar productos con stock >=1
+//Aplicado en DB
+
+CREATE TRIGGER trg_EliminarArticulo
+ON ARTICULOS
+FOR DELETE
+AS
+BEGIN
+    DECLARE @Stock INT;
+    DECLARE @Id INT;
+
+    SELECT @Id = id FROM DELETED;
+
+    -- verificar si el id del articulo esta en la tabla stck
+    SELECT @Stock = stock FROM stock WHERE id = @Id;
+
+    IF (@Stock >= 1)
+    BEGIN
+        RAISERROR('No se puede eliminar el producto porque tiene stock disponible.', 16, 1);
+        ROLLBACK;  -- Cancelamos la eliminación
+    END
+END;
+
+//importante, eliminar este trigger ya que se modifica al final
+DROP TRIGGER trg_EliminarArticulo
+
+
+// vista general de articulos
+CREATE VIEW ListarArticulos AS
+                            SELECT 
+            A.Id,
+            A.Codigo, 
+            A.Nombre, 
+            A.Descripcion, 
+            M.Descripcion AS Marca, 
+            C.Descripcion AS Categoria, 
+            A.Precio,
+            M.Id as IdMarca,
+            C.Id as IdCategoria,
+            I.ImagenUrl as Imagen,
+            A.Estado as Estado,
+            P.Nombre AS ProveedorNombre,
+            P.id_proveedor AS IdProveedor,
+            s.stock as Stock
+        FROM ARTICULOS AS A 
+        LEFT JOIN Marcas AS M ON A.IdMarca = M.Id 
+        LEFT JOIN Categorias AS C ON A.IdCategoria = C.Id
+        LEFT JOIN IMAGENES AS I ON I.IdArticulo = A.Id
+        LEFT JOIN Proveedor AS P ON A.id_proveedor = P.id_proveedor
+        LEFT JOIN Stock as S ON A.id = S.id
+
+
+//Procedure para baja logica en ArticuloNegocio
+
+CREATE PROCEDURE sp_BajaLogicaProducto
+    @Id INT
+AS
+BEGIN
+    UPDATE Articulos
+    SET estado = 0
+    WHERE Id = @Id;
+END
+
+
+
+// funcion que calcula el proveedor con mas articulos en la tienda
+
+CREATE PROCEDURE sp_ProveedorConMasArticulos en ProveedorNegocio
+AS
+BEGIN
+    SELECT TOP 1 
+        P.id_proveedor,
+        P.nombre,
+        COUNT(A.Id) AS CantidadArticulos
+    FROM 
+        proveedor AS P
+    JOIN 
+        Articulos AS A ON P.id_proveedor = A.id_proveedor
+    GROUP BY 
+        P.id_proveedor, P.Nombre
+    ORDER BY 
+        CantidadArticulos DESC;
+END;
+
+
+
+// se usa este SP para generar el ingreso de un nuevo articulo y devolver
+// el ID 
+
+
+CREATE PROCEDURE InsertarArticulo
+    @Codigo NVARCHAR(50),
+    @Nombre NVARCHAR(255),
+    @Descripcion NVARCHAR(MAX),
+    @Precio DECIMAL(18, 2),
+    @IdMarca INT,
+    @IdCategoria INT,
+    @Estado BIT,
+    @ArticuloId INT OUTPUT
+AS
+BEGIN
+    -- Insertar el artículo
+    INSERT INTO ARTICULOS (Codigo, Nombre, Descripcion, Precio, idMarca, idCategoria, estado)
+    VALUES (@Codigo, @Nombre, @Descripcion, @Precio, @IdMarca, @IdCategoria, @Estado)
+
+    -- Obtener el Id del artículo insertado
+    SET @ArticuloId = SCOPE_IDENTITY()
+END
+
+// tablas para logs
+CREATE TABLE LogEstadoArticulo (
+    LogID INT NOT NULL IDENTITY PRIMARY KEY,
+    IdArticulo INT NOT NULL,
+    EstadoAnterior BIT NOT NULL,
+    EstadoNuevo BIT NOT NULL,
+    FechaCambio DATETIME NOT NULL DEFAULT GETDATE(),
+    Usuario VARCHAR(100) NOT NULL DEFAULT 'Sistema' 
+);
+
+CREATE TABLE LogStockArticulo (
+    LogID INT NOT NULL IDENTITY PRIMARY KEY,
+    IdArticulo INT NOT NULL,
+    IdSitio INT NOT NULL,
+    StockAnterior INT NOT NULL,
+    StockNuevo INT NOT NULL,
+    FechaCambio DATETIME NOT NULL DEFAULT GETDATE(),
+    Usuario VARCHAR(100) NOT NULL DEFAULT 'Sistema', 
+    FOREIGN KEY (IdArticulo) REFERENCES Articulos(Id),
+    FOREIGN KEY (IdSitio) REFERENCES sitio(id_sitio)
+);
+
+
+//Transacciones, se generan 2 trigers con TRANSACTION para validar movimientos en tablas de stock o habilitaciones/deshabilitaciones de stock
+
+
+CREATE TRIGGER Trig_ArticuloEstado
+ON Articulos
+AFTER UPDATE
+AS
+BEGIN
+    BEGIN TRY
+        BEGIN TRANSACTION;
+
+        DECLARE @IdArticulo INT, @EstadoAnterior BIT, @EstadoNuevo BIT;
+
+        -- Obtiene el Id del artículo y los valores de estado
+        SELECT @IdArticulo = inserted.id, 
+               @EstadoAnterior = deleted.estado, 
+               @EstadoNuevo = inserted.estado
+        FROM inserted
+        JOIN deleted ON inserted.id = deleted.id;
+
+        IF @EstadoAnterior <> @EstadoNuevo
+        BEGIN
+            INSERT INTO LogEstadoArticulo (IdArticulo, EstadoAnterior, EstadoNuevo, FechaCambio, Usuario)
+            VALUES (@IdArticulo, @EstadoAnterior, @EstadoNuevo, GETDATE(), 'Sistema'); -- Ingresamos sistema ya que no tenemos multi usuario para este soft
+        END
+
+        COMMIT TRANSACTION;
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+        THROW; 
+    END CATCH
+END;
+
+CREATE TRIGGER Trig_StockArticulo
+ON stock
+AFTER UPDATE
+AS
+BEGIN
+    BEGIN TRY
+        BEGIN TRANSACTION;
+
+        DECLARE @IdArticulo INT, @IdSitio INT, @StockAnterior INT, @StockNuevo INT;
+
+        -- Obtiene el Id del artículo y el stock
+        SELECT @IdArticulo = inserted.id_producto, 
+               @IdSitio = inserted.id_sitio, 
+               @StockAnterior = deleted.stock, 
+               @StockNuevo = inserted.stock
+        FROM inserted
+        JOIN deleted ON inserted.id = deleted.id;
+
+        IF @StockAnterior <> @StockNuevo
+        BEGIN
+            INSERT INTO LogStockArticulo (IdArticulo, IdSitio, StockAnterior, StockNuevo, FechaCambio, Usuario)
+            VALUES (@IdArticulo, @IdSitio, @StockAnterior, @StockNuevo, GETDATE(), 'Sistema'); 
+        END
+
+        COMMIT TRANSACTION;
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+        THROW; 
+    END CATCH
+END;
+
+// Vistas de estos casos
+
+
+CREATE VIEW LogStock AS
+SELECT 
+    LogID,
+    IdArticulo,
+    IdSitio,
+    StockAnterior,
+    StockNuevo,
+    FechaCambio,
+    Usuario
+FROM 
+    LogStockArticulo;
+
+    CREATE VIEW LogEstado AS
+SELECT 
+    LogID,
+    IdArticulo,
+    EstadoAnterior,
+    EstadoNuevo,
+    FechaCambio,
+    Usuario
+FROM 
+    LogEstadoArticulo;
+
+// procedure definitivo para eliminar producots y todas sus relaciones entre tablas
+
+CREATE PROCEDURE EliminarProducto 
+    @IdArticulo INT
+AS
+BEGIN
+    BEGIN TRY
+        BEGIN TRANSACTION;
+
+        DECLARE @Stock INT;
+
+        SELECT @Stock = stock 
+        FROM stock 
+        WHERE id_producto = @IdArticulo;
+
+        --verifica stock si es mayor a 0 cancela
+        IF @Stock > 0
+        BEGIN
+            THROW 51000, 'No se puede eliminar el producto porque tiene stock disponible.', 1;
+        END
+
+        
+        DELETE FROM LogEstadoArticulo
+        WHERE IdArticulo = @IdArticulo;
+
+        DELETE FROM IMAGENES
+        WHERE IdArticulo = @IdArticulo;
+
+        DELETE FROM LogStockArticulo
+        WHERE IdArticulo = @IdArticulo;
+
+        DELETE FROM Stock
+        WHERE id_producto = @IdArticulo;
+
+        
+        DELETE FROM Articulos
+        WHERE id = @IdArticulo;
+
+        COMMIT TRANSACTION;
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+        THROW; 
+    END CATCH
+END;
