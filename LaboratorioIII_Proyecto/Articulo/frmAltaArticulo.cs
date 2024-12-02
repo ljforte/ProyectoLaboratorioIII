@@ -43,92 +43,60 @@ namespace LaboratorioIII_Proyecto
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
-            negocio = new ArticuloNegocio();
-
-            ArtImg img = new ArtImg();
-            Stock stock = new Stock();
-            StockNegocio stockNeg = new StockNegocio();
-            //Agregar Arituclo
             try
             {
-<<<<<<< HEAD
-=======
-
->>>>>>> Correciones varias, se agrega transacciones y sps
-                if (this.articulo ==null)
+                
+                if (this.articulo == null)
                 {
                     this.articulo = new Articulo();
                 }
-<<<<<<< HEAD
-                img.ImagenUrl = txtbUrlImagen.Text;
-                this.articulo.Nombre = txtbNombre.Text;
-                this.articulo.Codigo = txtbCodAr.Text;
-                this.articulo.Descripcion = txtbDescAr.Text;
+
+                ArtImg img = new ArtImg();
+                Stock stock = new Stock();
+
+                if (string.IsNullOrEmpty(txtbNombre.Text) || string.IsNullOrEmpty(txtbCodAr.Text) || string.IsNullOrEmpty(txtbPrecio.Text))
+                {
+                    MessageBox.Show("Por favor, completa todos los campos obligatorios.");
+                    return;
+                }
+
+                this.articulo.Nombre = txtbNombre.Text.Trim();
+                this.articulo.Codigo = txtbCodAr.Text.Trim();
+                this.articulo.Descripcion = txtbDescAr.Text.Trim();
                 this.articulo.MarcasCls = (Marcas)cbxMarca.SelectedItem;
                 this.articulo.CategoriasCls = (Categorias)cbxCat.SelectedItem;
                 this.articulo.Precio = decimal.Parse(txtbPrecio.Text);
-                this.articulo.Descripcion = txtbDescAr.Text;
-                this.articulo.Imagen = new ArtImg();
-                stock.sitio = (Sitio)cbxSitio.SelectedItem;
-                stock.stock = int.Parse(txtStock.Text);
-                stock.id_producto = articulo.Id;
-                if (checkBoxEstado.Checked)
-                {
-                    this.articulo.Estado = true;
-                }
-                else
-                {
-                    this.articulo.Estado = false;
-                }
-                img.ImagenUrl = txtbUrlImagen.Text;
+                this.articulo.Estado = checkBoxEstado.Checked;
 
+                img.ImagenUrl = txtbUrlImagen.Text.Trim();
+
+                stock.sitio = (Sitio)cbxSitio.SelectedItem;
+                stock.id_producto = this.articulo.Id;
+                stock.stock = int.Parse(txtStock.Text);
+
+                // Lógica de agregar o modificar
+                ArticuloNegocio negocio = new ArticuloNegocio();
                 if (btnAgregar.Text == "Agregar")
                 {
                     negocio.Agregar(this.articulo, img, stock);
-                   // stockNeg.Agregar(stock);
-=======
-
-                    this.articulo.Nombre = txtbNombre.Text;
-                    this.articulo.Codigo = txtbCodAr.Text;
-                    this.articulo.Descripcion = txtbDescAr.Text;
-                    this.articulo.MarcasCls = (Marcas)cbxMarca.SelectedItem;
-                    this.articulo.CategoriasCls = (Categorias)cbxCat.SelectedItem;
-                    this.articulo.Precio = decimal.Parse(txtbPrecio.Text);
-                    this.articulo.Imagen = new ArtImg();
-                    st.sitio = (Sitio)cbxSitio.SelectedItem;
-                    st.stock = int.Parse(txtStock.Text);
-                    st.id_producto = articulo.Id;
-                    this.articulo.Estado = checkBoxEstado.Checked;
-                    img.ImagenUrl = txtbUrlImagen.Text;
-
-                if (btnAgregar.Text == "Agregar")
-                {
-                    negocio.Agregar(this.articulo, img, st);
->>>>>>> Correciones varias, se agrega transacciones y sps
-                    MessageBox.Show("Articulo agregado correctamente.");
+                    MessageBox.Show("Artículo agregado correctamente.");
                 }
                 else if (btnAgregar.Text == "Modificar")
                 {
                     negocio.Modificar(this.articulo, img, stock);
+                    MessageBox.Show("Artículo modificado correctamente.");
                 }
-                
 
-
-<<<<<<< HEAD
-
+                // Cerrar formulario después de la acción
                 Close();
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Por favor, verifica que los datos numéricos estén en el formato correcto.");
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
-=======
-                    Close();
-                }
-                catch (Exception ex)
-                {
                 MessageBox.Show("Ocurrió un error: " + ex.Message);
-            }
->>>>>>> Correciones varias, se agrega transacciones y sps
             }
         }
 

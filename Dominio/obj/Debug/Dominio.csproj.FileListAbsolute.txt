@@ -16,3 +16,9 @@ C:\Users\Ezequiel\Source\Repos\ProyectoLaboratorioIII\Dominio\obj\Debug\Dominio.
 C:\Users\Ezequiel\Source\Repos\ProyectoLaboratorioIII\Dominio\obj\Debug\Dominio.csproj.CoreCompileInputs.cache
 C:\Users\Ezequiel\Source\Repos\ProyectoLaboratorioIII\Dominio\obj\Debug\Dominio.dll
 C:\Users\Ezequiel\Source\Repos\ProyectoLaboratorioIII\Dominio\obj\Debug\Dominio.pdb
+C:\Users\Lionel Messi\Desktop\ProyectoLaboratorioIII\Dominio\bin\Debug\Dominio.dll
+C:\Users\Lionel Messi\Desktop\ProyectoLaboratorioIII\Dominio\bin\Debug\Dominio.pdb
+C:\Users\Lionel Messi\Desktop\ProyectoLaboratorioIII\Dominio\obj\Debug\Dominio.csproj.AssemblyReference.cache
+C:\Users\Lionel Messi\Desktop\ProyectoLaboratorioIII\Dominio\obj\Debug\Dominio.csproj.CoreCompileInputs.cache
+C:\Users\Lionel Messi\Desktop\ProyectoLaboratorioIII\Dominio\obj\Debug\Dominio.dll
+C:\Users\Lionel Messi\Desktop\ProyectoLaboratorioIII\Dominio\obj\Debug\Dominio.pdb
