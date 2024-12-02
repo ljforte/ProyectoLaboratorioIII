@@ -528,6 +528,8 @@ END;
 
 
 
+
+
 // 2 12 24
 
 // Procedure para usar los filtros de frmArticulo
@@ -862,4 +864,28 @@ BEGIN
         ROLLBACK TRANSACTION;
         THROW; 
     END CATCH
+END;
+
+
+
+
+DROP PROCEDURE sp_ProveedorConMasArticulos
+
+
+CREATE PROCEDURE sp_ProveedorConMasArticulos
+AS
+BEGIN
+    SELECT TOP 1 
+        P.id_proveedor,
+        P.nombre,
+        COUNT(A.Id) AS CantidadArticulos
+    FROM 
+        proveedor AS P
+    JOIN 
+        Articulos AS A 
+        ON P.id_proveedor = A.id_proveedor AND A.Estado = 1 -- solo habilitados
+    GROUP BY 
+        P.id_proveedor, P.Nombre
+    ORDER BY 
+        CantidadArticulos DESC;
 END;
