@@ -17,7 +17,7 @@ namespace Negocio
 
             try
             {
-                datos.SetearConsulta("SELECT idMarca, nombre from MARCAS");
+                datos.SetearConsulta("SELECT idMarca, nombre from MARCAS ORDER BY nombre ASC");
                 datos.EjecutarLectura();
                 
 
@@ -67,7 +67,7 @@ namespace Negocio
             try
             {
                 AccesoDatos datos = new AccesoDatos();
-                datos.SetearConsulta("delete from MARCAS where IdMarca = @id");
+                datos.SetearConsulta("delete from MARCAS where IdMarca = @idMarca");
                 datos.setearParametro("@IdMarca", id);
                 datos.EjecutarAccion();
 
@@ -75,7 +75,7 @@ namespace Negocio
             catch (Exception ex)
             {
 
-                throw;
+                throw new Exception("Error al Eliminar la Marca: " + ex.Message); throw;
             }
         }
 
@@ -85,15 +85,15 @@ namespace Negocio
             try
             {
                 
-                datos.SetearConsulta("UPDATE MARCAS SET nombre = @nombre WHERE idMarca = @id");
+                datos.SetearConsulta("UPDATE MARCAS SET nombre = @nombre WHERE idMarca = @idMarca");
                 datos.setearParametro("@nombre", marca.nombre);
                 datos.setearParametro("@idMarca", marca.Id);
                 datos.EjecutarAccion();
             }
             catch (Exception ex)
             {
-                throw ex;
-                
+                throw new Exception("Error al modificar la Marca: " + ex.Message);
+
             }
             finally
             {

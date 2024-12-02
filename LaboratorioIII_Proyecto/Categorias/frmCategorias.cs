@@ -56,17 +56,41 @@ namespace LaboratorioIII_Proyecto
 
         private void btnModificar_Click(object sender, EventArgs e)
         {
-            Categorias categoria = (Categorias)dgvCategorias.CurrentRow.DataBoundItem;
-            frmAltaCategoria frm  = new frmAltaCategoria(categoria);
-            frm.ShowDialog();
-            cargarListadoCategorias();
+            try
+            {
+                Categorias categoria = (Categorias)dgvCategorias.CurrentRow.DataBoundItem;
+                frmAltaCategoria frm = new frmAltaCategoria(categoria);
+                frm.ShowDialog();
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "btnAgregar_Click", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cargarListadoCategorias();
+            }
+            
+       
+            
         }
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
-            frmAltaCategoria frmAltaCategoria = new frmAltaCategoria();
-            frmAltaCategoria.ShowDialog();
-            cargarListadoCategorias();
+            try
+            {
+                frmAltaCategoria frmAltaCategoria = new frmAltaCategoria();
+                frmAltaCategoria.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message, "btnAgregar_Click", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally { cargarListadoCategorias(); }
+            
+            
 
         }
 
@@ -83,11 +107,15 @@ namespace LaboratorioIII_Proyecto
             catch (Exception ex)
             {
 
+
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            cargarCategoria();
+            finally {
+                cargarCategoria();
+            }
+            
         }
-        public void cargarCategoria()
+        protected void cargarCategoria()
         {
             CategoriaNegocio negocio = new CategoriaNegocio();
                 categorias = negocio.ListarCategoria();

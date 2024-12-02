@@ -75,7 +75,7 @@ namespace Negocio
             catch (Exception ex)
             {
 
-                throw;
+                throw new Exception("Error al eliminar la categoría: " + ex.Message);
             }
         }
 

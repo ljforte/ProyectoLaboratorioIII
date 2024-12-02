@@ -52,18 +52,41 @@ namespace LaboratorioIII_Proyecto
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
-            frmAltaMarca frmAltaMarca = new frmAltaMarca();
-            frmAltaMarca.ShowDialog();
-            cargarMarcas();
+            try
+            {
+                frmAltaMarca frmAltaMarca = new frmAltaMarca();
+                frmAltaMarca.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message, "Error al Alta Marca", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally {
+                cargarMarcas();
+            }
+            
+            
         }
 
         private void btnModificar_Click(object sender, EventArgs e)
         {
-            Marcas seleccionado;
-            seleccionado = (Marcas)dgvListarMarcas.CurrentRow.DataBoundItem;
-            frmAltaMarca modificar = new frmAltaMarca(seleccionado);
-            modificar.ShowDialog();
-   
+            try
+            {
+                Marcas seleccionado;
+                seleccionado = (Marcas)dgvListarMarcas.CurrentRow.DataBoundItem;
+                frmAltaMarca modificar = new frmAltaMarca(seleccionado);
+                modificar.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error al Modificar Marca", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cargarMarcas();
+            }
+
         }
 
         public void cargarMarca()
@@ -82,12 +105,15 @@ namespace LaboratorioIII_Proyecto
             {
                 seleccionado = (Marcas)dgvListarMarcas.CurrentRow.DataBoundItem;
                 negocio.Eliminar(seleccionado.Id);
-                cargarMarca();
                 MessageBox.Show(seleccionado.nombre + " eliminado correctamente");
             }
             catch (Exception ex)
             {
-                MessageBox.Show("No se pudo borrar el articulo");
+                MessageBox.Show(ex.Message, "Error al eliminar Marca", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cargarMarcas();
             }
         }
 
@@ -96,7 +122,7 @@ namespace LaboratorioIII_Proyecto
 
         }
 
-        private void tsmAgregar_Click(object sender, EventArgs e)
+        protected void tsmAgregar_Click(object sender, EventArgs e)
         {
             frmAltaMarca frmAltaMarca = new frmAltaMarca();
             frmAltaMarca.ShowDialog();
