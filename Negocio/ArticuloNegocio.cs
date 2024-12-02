@@ -81,9 +81,11 @@ namespace Negocio
 
 
 
+
         public void AgregarImagen(ArtImg Imagen, Articulo art)
         {
             AccesoDatos datos = new AccesoDatos();
+            string urlImagen = string.IsNullOrEmpty(Imagen.ImagenUrl) ? "https://thumbs.dreamstime.com/b/cinta-defectuosa-signo-de-la-banda-grifo-banner-defecto-189768085.jpg" : Imagen.ImagenUrl;
 
             try
             {
@@ -131,9 +133,9 @@ namespace Negocio
             try
             {
 
-                datos.SetearConsulta(
-                                     "INSERT INTO ARTICULOS (Codigo, Nombre, Descripcion, Precio, idMarca, idCategoria, estado) " +
-                                     "VALUES (@Codigo, @Nombre, @Descripcion, @Precio, @IdMarca, @IdCategoria, @Estado); "
+                datos.SetearConsulta(@"INSERT INTO ARTICULOS (Codigo, Nombre, Descripcion, Precio, idMarca, idCategoria, estado)
+
+                                     VALUES (@Codigo, @Nombre, @Descripcion, @Precio, @IdMarca, @IdCategoria, @Estado); "
                                      );
                 // Tabla articulos
                 datos.setearParametro("@Codigo", art.Codigo);
@@ -154,7 +156,7 @@ namespace Negocio
                 }
                 catch(Exception ex)
                 {
-                    throw ex;
+                    throw new Exception("Error al agregar el stock: " + ex.Message);
                 }
                 finally
                 {
@@ -163,7 +165,7 @@ namespace Negocio
             }
             catch (Exception ex) 
             {
-                throw ex;
+                throw new Exception("Error al agregar el artículo: " + ex.Message);
             }
             finally
             {

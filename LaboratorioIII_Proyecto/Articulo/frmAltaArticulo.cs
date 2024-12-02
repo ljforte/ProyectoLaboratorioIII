@@ -22,9 +22,9 @@ namespace LaboratorioIII_Proyecto
         public frmAltaArticulo()
         {
             InitializeComponent();
-         
+
         }
-        
+
 
         public frmAltaArticulo(Articulo Articulo)
         {
@@ -44,29 +44,29 @@ namespace LaboratorioIII_Proyecto
         private void btnAgregar_Click(object sender, EventArgs e)
         {
             negocio = new ArticuloNegocio();
- 
+
             ArtImg img = new ArtImg();
-            Stock st = new Stock();
-            StockNegocio stNeg = new StockNegocio();
+            Stock stock = new Stock();
+            StockNegocio stockNeg = new StockNegocio();
             //Agregar Arituclo
             try
-                {
+            {
                 if (this.articulo ==null)
                 {
                     this.articulo = new Articulo();
                 }
                 img.ImagenUrl = txtbUrlImagen.Text;
-                    this.articulo.Nombre = txtbNombre.Text;
-                    this.articulo.Codigo = txtbCodAr.Text;
-                    this.articulo.Descripcion = txtbDescAr.Text;
-                    this.articulo.MarcasCls = (Marcas)cbxMarca.SelectedItem;
-                    this.articulo.CategoriasCls = (Categorias)cbxCat.SelectedItem;
-                    this.articulo.Precio = decimal.Parse(txtbPrecio.Text);
-                    this.articulo.Descripcion = txtbDescAr.Text;
-                    this.articulo.Imagen = new ArtImg();
-                    st.sitio = (Sitio)cbxSitio.SelectedItem;
-                    st.stock = int.Parse(txtStock.Text);
-                    st.id_producto = articulo.Id;
+                this.articulo.Nombre = txtbNombre.Text;
+                this.articulo.Codigo = txtbCodAr.Text;
+                this.articulo.Descripcion = txtbDescAr.Text;
+                this.articulo.MarcasCls = (Marcas)cbxMarca.SelectedItem;
+                this.articulo.CategoriasCls = (Categorias)cbxCat.SelectedItem;
+                this.articulo.Precio = decimal.Parse(txtbPrecio.Text);
+                this.articulo.Descripcion = txtbDescAr.Text;
+                this.articulo.Imagen = new ArtImg();
+                stock.sitio = (Sitio)cbxSitio.SelectedItem;
+                stock.stock = int.Parse(txtStock.Text);
+                stock.id_producto = articulo.Id;
                 if (checkBoxEstado.Checked)
                 {
                     this.articulo.Estado = true;
@@ -75,32 +75,33 @@ namespace LaboratorioIII_Proyecto
                 {
                     this.articulo.Estado = false;
                 }
-                    img.ImagenUrl = txtbUrlImagen.Text;
+                img.ImagenUrl = txtbUrlImagen.Text;
 
                 if (btnAgregar.Text == "Agregar")
                 {
-                    negocio.Agregar(this.articulo, img, st);
-                    stNeg.Agregar(st);
+                    negocio.Agregar(this.articulo, img, stock);
+                   // stockNeg.Agregar(stock);
                     MessageBox.Show("Articulo agregado correctamente.");
                 }
-                else if (btnAgregar.Text == "Modificar") 
+                else if (btnAgregar.Text == "Modificar")
                 {
-                    negocio.Modificar(this.articulo, img, st);
+                    negocio.Modificar(this.articulo, img, stock);
                 }
-                    
+                
 
 
-                    Close();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.ToString());
-                }
+
+                Close();
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
 
 
 
-        
+
 
         private void frmArticulo_Load(object sender, EventArgs e)
         {
@@ -126,7 +127,7 @@ namespace LaboratorioIII_Proyecto
 
                 if (articulo != null) //Si es diferentes entonces MOD aca!, Seteamos 
                 {
-                    
+
                     txtbNombre.Text = articulo.Nombre;
                     txtbCodAr.Text = articulo.Codigo;
                     txtbDescAr.Text = articulo.Descripcion;
@@ -150,8 +151,8 @@ namespace LaboratorioIII_Proyecto
         }
 
         private void txtbUrlImagen_Leave(object sender, EventArgs e)
-        {   
-            cargarImagen(txtbUrlImagen.Text);   
+        {
+            cargarImagen(txtbUrlImagen.Text);
         }
 
         private void cargarImagen(string imagen)
@@ -202,7 +203,7 @@ namespace LaboratorioIII_Proyecto
             StockNegocio stNeg = new StockNegocio();
             try
             {
-                
+
                 if (int.TryParse(cbxSitio.SelectedValue.ToString(), out int idSitioSeleccionado))
                 {
                     txtStock.Text = stNeg.ObtenerStockPorProductoYSitio(articulo.Id, idSitioSeleccionado).ToString();

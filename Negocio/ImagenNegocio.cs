@@ -26,6 +26,9 @@ namespace Negocio
                     ArtImg aux = new ArtImg();
                     if (!(datos.lector["ImagenUrl"] is DBNull))
                         aux.ImagenUrl = (string)datos.lector["ImagenUrl"];
+                    else
+                        aux.ImagenUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToC80gsySk0-Il2_Gspv3pM6t-jXsvRw7erA&s";     
+
                     aux.Desc = (string)datos.lector["Nombre"];
                     aux.Id = (int)datos.lector["Id"];
 

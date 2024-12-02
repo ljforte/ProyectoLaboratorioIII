@@ -29,6 +29,10 @@ namespace LaboratorioIII_Proyecto
 
             cargarArticulo();
             cargarCbxCampo();
+            dgvPrimeraFila();
+
+
+
 
         }
 
@@ -116,10 +120,25 @@ namespace LaboratorioIII_Proyecto
                 frmAltaArticulo modificar = new frmAltaArticulo(seleccionado);
                 modificar.ShowDialog();
                 cargarArticulo();
+
+                dgvPrimeraFila();
             }
             else
             {
                 MessageBox.Show("Por favor, seleccione un artículo para modificar.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void dgvPrimeraFila()
+        {
+            if (dgvListarArticulos.Rows.Count > 0 && dgvListarArticulos.Rows[0].Visible)
+            {
+                
+                if (dgvListarArticulos.Rows[0].Cells[0].Visible)
+                {
+                    dgvListarArticulos.CurrentCell = dgvListarArticulos.Rows[0].Cells[0];
+                    dgvListarArticulos.Rows[0].Selected = true;
+                }
             }
         }
 
@@ -139,7 +158,7 @@ namespace LaboratorioIII_Proyecto
                 {
                     MessageBox.Show("Por favor, seleccione un artículo para eliminar.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
-                }
+            }
             catch (Exception ex)
             {
                 MessageBox.Show($"{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
