@@ -33,7 +33,7 @@ namespace Negocio
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.SetearConsulta("SELECT IdCategoria,nombre from CATEGORIAS");
+                datos.SetearConsulta("SELECT IdCategoria, nombre FROM CATEGORIAS ORDER BY nombre ASC");
                 datos.EjecutarLectura();
 
                 while (datos.lector.Read())
@@ -67,7 +67,7 @@ namespace Negocio
             try
             {
                 AccesoDatos datos = new AccesoDatos();
-                datos.SetearConsulta("delete from CATEGORIAS where IdCategoria = @id");
+                datos.SetearConsulta("delete from CATEGORIAS where IdCategoria = @IdCategoria");
                 datos.setearParametro("@IdCategoria", id);
                 datos.EjecutarAccion();
 
@@ -84,12 +84,14 @@ namespace Negocio
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.SetearConsulta("update CATEGORIAS set nombre = @nombre WHERE IdCategoria = @Id");
+                datos.SetearConsulta("update CATEGORIAS set nombre = @nombre WHERE IdCategoria = @IdCategoria");
                 datos.setearParametro("@IdCategoria", categoria.Id);
                 datos.setearParametro("@nombre", categoria.nombre);                
                 datos.EjecutarAccion();
             }
-            catch (Exception ex) { throw ex; }
+            catch (Exception ex) {
+                throw new Exception("Error al modificar la categoría: " + ex.Message);
+            }
             finally { datos.CerrarConexion(); }
             
         }

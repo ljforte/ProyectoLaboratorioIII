@@ -61,6 +61,7 @@ namespace LaboratorioIII_Proyecto
             this.dgvCategorias.RowHeadersWidth = 51;
             this.dgvCategorias.Size = new System.Drawing.Size(211, 277);
             this.dgvCategorias.TabIndex = 1;
+            this.dgvCategorias.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             // 
             // menuStrip1
             // 

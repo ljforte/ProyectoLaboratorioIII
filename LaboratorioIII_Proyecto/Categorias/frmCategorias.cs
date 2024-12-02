@@ -78,7 +78,6 @@ namespace LaboratorioIII_Proyecto
             {
                 seleccionado = (Categorias)dgvCategorias.CurrentRow.DataBoundItem;
                 negocio.Eliminar(seleccionado.Id);
-                cargarCategoria();
                 MessageBox.Show(seleccionado.nombre + " eliminado correctamente");
             }
             catch (Exception ex)
@@ -86,6 +85,7 @@ namespace LaboratorioIII_Proyecto
 
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            cargarCategoria();
         }
         public void cargarCategoria()
         {
